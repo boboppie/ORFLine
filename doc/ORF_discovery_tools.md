@@ -6,6 +6,7 @@ ORF-RATER
 
 Input:
 Reference transcriptomes (NOT whole genome), previously assembled + RefSeq + ENSEMBL transcripts
+bams (tophat aligned)
 
 Output:
 
@@ -52,6 +53,15 @@ consistency with later scripts.
 Identify all possible ORFs in a transcriptome. ORF-RATER will evaluate translation 
 of only these ORFs. Default start codon "ATG", can be "NTG"
 
+* psite_trimmed.py
+
+Find most common P-site offset for each read length in a ribosome profiling
+experiment. If multiple ribosome profiling datasets are to be analyzed
+separately (e.g. if they were collected under different drug treatments), then
+this program should be run separately for each, ideally in separate subfolders
+indicated by SUBDIR.
+
+Is it similar to plastid psite script?
 
 /////////////////////////
 Workflow Steps:
