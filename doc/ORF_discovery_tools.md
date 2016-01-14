@@ -61,6 +61,8 @@ separately (e.g. if they were collected under different drug treatments), then
 this program should be run separately for each, ideally in separate subfolders
 indicated by SUBDIR.
 
+Needs start codon pos (--cdsbed)
+
 Is it similar to plastid psite script?
 
 /////////////////////////
