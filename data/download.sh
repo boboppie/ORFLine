@@ -13,7 +13,7 @@ mkdir -p B/rna-seq/manuel/Resting/fastq
 mkdir -p T/ribo-seq/seb/Activated/fastq
 
 # Download from sierra (http://www.bioinformatics.babraham.ac.uk/sierra/sierra.pl)
-# THIS STEP HAS TO BE MANUAL AT THE MOMEN
+# THIS STEP HAS TO BE MANUAL AT THE MOMENT
 # Data location refer to Google Drive Spreadsheet
 
 # Merge reads from different lanes on flowcell
