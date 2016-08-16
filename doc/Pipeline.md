@@ -39,7 +39,7 @@ fastqc -t 4 -o ~/out/orf-discovery/BMDM/ribo-seq/manuel/LPS/fastqc ~/out/orf-dis
 bowtie2 --local -k 100 --seed 23 -p 4 --un ~/out/orf-discovery/BMDM/ribo-seq/manuel/LPS/bowtie2/BMDM_ribo-seq_manuel_LPS_TTP_WT1_trimmed_unfiltered.fq -x ~/ref/GENCODE/mouse/M8/fasta/ribo-seq_reads-filter/ribo-seq_reads-filter -U <(gzip -dc ~/out/orf-discovery/BMDM/ribo-seq/manuel/LPS/cutadapt/BMDM_ribo-seq_manuel_LPS_TTP_WT1_trimmed.fastq.gz) | samtools view -bS - >~/out/orf-discovery/BMDM/ribo-seq/manuel/LPS/bowtie2/BMDM_ribo-seq_manuel_LPS_TTP_WT1_trimmed_filtered.bam
 gzip ~/out/orf-discovery/BMDM/ribo-seq/manuel/LPS/bowtie2/BMDM_ribo-seq_manuel_LPS_TTP_WT1_trimmed_unfiltered.fq
 
-3. Map unfiltered reads to genome/transcriptome by TopHat, detect novel transcripts by Cufflinks
+3. Map unfiltered reads to genome/transcriptome by  , detect novel transcripts by Cufflinks
 # DO NOT STREAM GTF
 # Align to genome
 tophat -o ~/out/orf-discovery/BMDM/ribo-seq/manuel/LPS/tophat/genome -g 64 -p 4 \ 
@@ -55,7 +55,7 @@ samtools view -q 10 -b ~/out/orf-discovery/BMDM/ribo-seq/manuel/LPS/tophat/genom
 samtools index ~/out/orf-discovery/BMDM/ribo-seq/manuel/LPS/tophat/genome/accepted_hits.q10.bam
 fastqc -t 4 -o ~/out/orf-discovery/BMDM/ribo-seq/manuel/LPS/fastqc/tophat/genome -f bam ~/out/orf-discovery/BMDM/ribo-seq/manuel/LPS/tophat/genome/accepted_hits.q10.bam
 
-# Alighn to transcriptome (cDNA, introns excluded)
+# Align to transcriptome (cDNA, introns excluded)
 
 ################ DO NOT RUN
 # Building transcriptome data files (NOTE: tophat only takes relavent path???)
@@ -86,15 +86,12 @@ fastqc -t 4 -o ~/out/orf-discovery/BMDM/ribo-seq/manuel/LPS/fastqc/tophat/transc
 # From Simon - mapping reads to genome (HISAT2) and filter out low mapping quality reads rather than using tophat transcriptome only mode
 extract_splice_sites.py /Users/huf/ref/GENCODE/mouse/M8/annotation/CHR/protein_coding/protein_coding.filtered.noSelenocysteine.gtf  > ~/out/orf-discovery/BMDM/ribo-seq/manuel/LPS/hisat2/splicesites.txt
 hisat2-build /Users/huf/ref/GENCODE/mouse/M8/fasta/genome/CHR/GRCm38.CHR.genome.fa /Users/huf/ref/GENCODE/mouse/M8/fasta/genome/CHR/GRCm38.CHR.genome
-hisat2 -f -p 4 \ 
-       -x /Users/huf/ref/GENCODE/mouse/M8/fasta/genome/CHR/GRCm38.CHR.genome \ 
-       --known-splicesite-infile ~/out/orf-discovery/BMDM/ribo-seq/manuel/LPS/hisat2/splicesites.txt \ 
-       -U /Users/huf/out/orf-discovery/BMDM/ribo-seq/manuel/LPS/bowtie2/BMDM_ribo-seq_manuel_LPS_TTP_WT1_trimmed_unfiltered.fq.gz \ 
-       -S /Users/huf/out/orf-discovery/BMDM/ribo-seq/manuel/LPS/hisat2/transcriptome.sam
+hisat2 -q -p 4 -x /Users/huf/ref/GENCODE/mouse/M8/fasta/genome/CHR/GRCm38.CHR.genome --known-splicesite-infile ~/out/orf-discovery/BMDM/ribo-seq/manuel/LPS/hisat2/splicesites.txt --seed 23 -U /Users/huf/out/orf-discovery/BMDM/ribo-seq/manuel/LPS/bowtie2/BMDM_ribo-seq_manuel_LPS_TTP_WT1_trimmed_unfiltered.fq.gz -S /Users/huf/out/orf-discovery/BMDM/ribo-seq/manuel/LPS/hisat2/transcriptome.sam
 
-samtools view -q 4 -bS /Users/huf/out/orf-discovery/BMDM/ribo-seq/manuel/LPS/hisat2/transcriptome.sam > /Users/huf/out/orf-discovery/BMDM/ribo-seq/manuel/LPS/hisat2/transcriptome_q4.bam
-samtools index /Users/huf/out/orf-discovery/BMDM/ribo-seq/manuel/LPS/hisat2/transcriptome_q4.bam
-fastqc -t 4 -o ~/out/orf-discovery/BMDM/ribo-seq/manuel/LPS/fastqc/hisat2/transcriptome -f bam /Users/huf/out/orf-discovery/BMDM/ribo-seq/manuel/LPS/hisat2/transcriptome_q4.bam
+samtools view -q 4 -bS /Users/huf/out/orf-discovery/BMDM/ribo-seq/manuel/LPS/hisat2/transcriptome.sam > /Users/huf/out/orf-discovery/BMDM/ribo-seq/manuel/LPS/hisat2/transcriptome_q4.bam # 67049709 -> 23869793
+samtools sort /Users/huf/out/orf-discovery/BMDM/ribo-seq/manuel/LPS/hisat2/transcriptome_q4.bam -o /Users/huf/out/orf-discovery/BMDM/ribo-seq/manuel/LPS/hisat2/transcriptome_q4.sorted.bam
+samtools index /Users/huf/out/orf-discovery/BMDM/ribo-seq/manuel/LPS/hisat2/transcriptome_q4.sorted.bam
+fastqc -t 4 -o ~/out/orf-discovery/BMDM/ribo-seq/manuel/LPS/fastqc/hisat2/transcriptome -f bam /Users/huf/out/orf-discovery/BMDM/ribo-seq/manuel/LPS/hisat2/transcriptome_q4.sorted.bam
 
 # to calculate read length mean and sd, using samtools stats and a R func - http://stackoverflow.com/questions/22644481/r-computing-mean-median-variance-from-file-with-frequency-distribution
 # samtools stats ~/out/orf-discovery/BMDM/ribo-seq/manuel/LPS/tophat/accepted_hits.q10.bam
@@ -147,7 +144,11 @@ metagene generate /Users/huf/out/orf-discovery/BMDM/ribo-seq/manuel/LPS/plastid/
                   --landmark cds_start \ 
                   --annotation_files /Users/huf/ref/GENCODE/mouse/M8/annotation/CHR/protein_coding/protein_coding.filtered.noSelenocysteine.gtf
 
-psite /Users/huf/out/orf-discovery/BMDM/ribo-seq/manuel/LPS/plastid/psite/protein_coding_rois.txt /Users/huf/out/orf-discovery/BMDM/ribo-seq/manuel/LPS/plastid/riboprofile_tophat_transcriptome --min_length 22 --max_length 33 --require_upstream --count_files /Users/huf/out/orf-discovery/BMDM/ribo-seq/manuel/LPS/tophat/transcriptome/accepted_hits.q10.bam
+mkdir -p /Users/huf/out/orf-discovery/BMDM/ribo-seq/manuel/LPS/plastid/psite/hisat2
+mkdir -p /Users/huf/out/orf-discovery/BMDM/ribo-seq/manuel/LPS/plastid/psite/tophat
+psite /Users/huf/out/orf-discovery/BMDM/ribo-seq/manuel/LPS/plastid/psite/protein_coding_rois.txt /Users/huf/out/orf-discovery/BMDM/ribo-seq/manuel/LPS/plastid/tophat/riboprofile_tophat_transcriptome --min_length 22 --max_length 33 --require_upstream --count_files /Users/huf/out/orf-discovery/BMDM/ribo-seq/manuel/LPS/tophat/transcriptome/accepted_hits.q10.bam
+
+psite /Users/huf/out/orf-discovery/BMDM/ribo-seq/manuel/LPS/plastid/psite/protein_coding_rois.txt /Users/huf/out/orf-discovery/BMDM/ribo-seq/manuel/LPS/plastid/psite/hisat2/riboprofile_tophat_transcriptome --min_length 22 --max_length 32 --require_upstream --count_files /Users/huf/out/orf-discovery/BMDM/ribo-seq/manuel/LPS/hisat2/transcriptome_q4.sorted.bam
 
 # Metagene analysis
 metagene generate /Users/huf/out/orf-discovery/BMDM/ribo-seq/manuel/LPS/plastid/metagene/protein_coding  --landmark cds_start \
@@ -162,6 +163,20 @@ metagene chart /Users/huf/out/orf-discovery/BMDM/ribo-seq/manuel/LPS/plastid/met
                /Users/huf/out/orf-discovery/BMDM/ribo-seq/manuel/LPS/plastid/metagene/riboprofile_tophat_transcriptome_metagene_profile.txt \
                --landmark "start codon" \
                --title "Metagene demo"
+
+mkdir -p /Users/huf/out/orf-discovery/BMDM/ribo-seq/manuel/LPS/plastid/metagene/hisat2
+metagene generate /Users/huf/out/orf-discovery/BMDM/ribo-seq/manuel/LPS/plastid/metagene/hisat2/protein_coding  --landmark cds_start \
+                  --annotation_files /Users/huf/ref/GENCODE/mouse/M8/annotation/CHR/protein_coding/protein_coding.filtered.noSelenocysteine.gtf \
+                  --downstream 30
+
+metagene count /Users/huf/out/orf-discovery/BMDM/ribo-seq/manuel/LPS/plastid/metagene/hisat2/protein_coding_rois.txt /Users/huf/out/orf-discovery/BMDM/ribo-seq/manuel/LPS/plastid/metagene/hisat2/riboprofile_hisat2_transcriptome \
+               --count_files /Users/huf/out/orf-discovery/BMDM/ribo-seq/manuel/LPS/hisat2/transcriptome_q4.sorted.bam \
+               --fiveprime_variable --offset /Users/huf/out/orf-discovery/BMDM/ribo-seq/manuel/LPS/plastid/psite/hisat2/riboprofile_tophat_transcriptome_p_offsets.txt 
+
+metagene chart /Users/huf/out/orf-discovery/BMDM/ribo-seq/manuel/LPS/plastid/metagene/hisat2/riboprofile_hisat2_transcriptome \
+               /Users/huf/out/orf-discovery/BMDM/ribo-seq/manuel/LPS/plastid/metagene/hisat2/riboprofile_hisat2_transcriptome_metagene_profile.txt \
+               --landmark "start codon" \
+               --title "Metagene profile"              
 
 ## Or give an offsets file
 metagene count /Users/huf/out/orf-discovery/BMDM/ribo-seq/manuel/LPS/plastid/metagene/protein_coding_rois.txt /Users/huf/out/orf-discovery/BMDM/ribo-seq/manuel/LPS/plastid/metagene/riboprofile_tophat_transcriptome_fiveprime_variable \
@@ -189,9 +204,27 @@ metagene chart /Users/huf/out/orf-discovery/BMDM/ribo-seq/manuel/LPS/plastid/met
                /Users/huf/out/orf-discovery/BMDM/ribo-seq/manuel/LPS/plastid/metagene/transcript/${ENSID}_metagene_profile.txt \
                --landmark "start codon" \
                --title "${ENSID}"
+
+mkdir -p /Users/huf/out/orf-discovery/BMDM/ribo-seq/manuel/LPS/plastid/metagene/transcript/hisat2
+metagene count /Users/huf/out/orf-discovery/BMDM/ribo-seq/manuel/LPS/plastid/metagene/transcript/${ENSID}_rois.txt /Users/huf/out/orf-discovery/BMDM/ribo-seq/manuel/LPS/plastid/metagene/transcript/hisat2/${ENSID} \
+               --count_files /Users/huf/out/orf-discovery/BMDM/ribo-seq/manuel/LPS/hisat2/transcriptome_q4.sorted.bam \
+               --fiveprime_variable --offset /Users/huf/out/orf-discovery/BMDM/ribo-seq/manuel/LPS/plastid/psite/hisat2/riboprofile_tophat_transcriptome_p_offsets.txt 
+
+metagene chart /Users/huf/out/orf-discovery/BMDM/ribo-seq/manuel/LPS/plastid/metagene/transcript/hisat2/${ENSID} \
+               /Users/huf/out/orf-discovery/BMDM/ribo-seq/manuel/LPS/plastid/metagene/transcript/hisat2/${ENSID}_metagene_profile.txt \
+               --landmark "start codon" \
+               --title "${ENSID}"
 ###
 
-# Phasing (NOT WORKING)
+# Phasing
+awk '{if($3=="exon" || $3=="CDS" || $3=="start_codon" || $3=="stop_codon"){print $0}}' protein_coding.filtered.noSelenocysteine.gtf >protein_coding.filtered.noSelenocysteine.plastid.gtf
+awk '{if($0~"_level \"(1|2|3)\";"){print $0}}' protein_coding.filtered.noSelenocysteine.plastid.gtf >protein_coding.filtered.noSelenocysteine.plastid.supportLevel1To3.gtf
+awk '{if($0!~"tag \"(cds_end_NF|cds_start_NF)\";"){print $0}}' protein_coding.filtered.noSelenocysteine.plastid.gtf >protein_coding.filtered.noSelenocysteine.plastid.tagFiltered.gtf
+grep -v non_stop_decay protein_coding.filtered.noSelenocysteine.plastid.tagFiltered.gtf >protein_coding.filtered.noSelenocysteine.plastid.tagFiltered.nonStopDecay.gtf
+awk '{if($0!~"_level \"NA\";"){print $0}}' protein_coding.filtered.noSelenocysteine.plastid.tagFiltered.nonStopDecay.gtf >protein_coding.filtered.noSelenocysteine.plastid.tagFiltered.nonStopDecay.noSupportLevelNA.gtf
+awk '{if($0~"level (1|2);"){print $0}}' protein_coding.filtered.noSelenocysteine.plastid.tagFiltered.nonStopDecay.noSupportLevelNA.gtf >protein_coding.filtered.noSelenocysteine.plastid.tagFiltered.nonStopDecay.noSupportLevelNA.level12.gtf
+grep -v Ntan1-004 protein_coding.filtered.noSelenocysteine.plastid.tagFiltered.nonStopDecay.noSupportLevelNA.level12.gtf >protein_coding.filtered.noSelenocysteine.plastid.tagFiltered.nonStopDecay.noSupportLevelNA.level12.noNtan1-004.gtf
+
 phase_by_size /Users/huf/out/orf-discovery/BMDM/ribo-seq/manuel/LPS/plastid/phasing/riboprofile_tophat_transcriptome \
                 --count_files /Users/huf/out/orf-discovery/BMDM/ribo-seq/manuel/LPS/tophat/transcriptome/accepted_hits.q10.bam \
                 --annotation_files /Users/huf/ref/GENCODE/mouse/M8/annotation/CHR/protein_coding/protein_coding.filtered.noSelenocysteine.gtf\
@@ -199,6 +232,13 @@ phase_by_size /Users/huf/out/orf-discovery/BMDM/ribo-seq/manuel/LPS/plastid/phas
                 --fiveprime --offset 12 \
                 --codon_buffer 5 \
                 --min_length 28 --max_length 30
+
+phase_by_size /Users/huf/out/orf-discovery/BMDM/ribo-seq/manuel/LPS/plastid/phasing/riboprofile_tophat_transcriptome \
+                --count_files /Users/huf/out/orf-discovery/BMDM/ribo-seq/manuel/LPS/hisat2/transcriptome_q4.sorted.bam \
+                --annotation_files /Users/huf/ref/GENCODE/mouse/M8/annotation/CHR/protein_coding/protein_coding.filtered.noSelenocysteine.plastid.tagFiltered.nonStopDecay.noSupportLevelNA.level12.noNtan1-004.gtf \
+                --annotation_format GTF2 \
+                --fiveprime_variable --offset /Users/huf/out/orf-discovery/BMDM/ribo-seq/manuel/LPS/plastid/psite/hisat2/riboprofile_tophat_transcriptome_p_offsets.txt \
+                --codon_buffer 5  
 
 # Expression
 counts_in_region /Users/huf/out/orf-discovery/BMDM/ribo-seq/manuel/LPS/plastid/expression/riboprofile_tophat_transcriptome_counts.txt --count_files /Users/huf/out/orf-discovery/BMDM/ribo-seq/manuel/LPS/tophat/transcriptome/accepted_hits.q10.bam \
@@ -222,5 +262,7 @@ mkdir -p /Users/huf/out/orf-discovery/BMDM/ribo-seq/manuel/LPS/ORF-RATER/
 
 fgrep -w transcript /Users/huf/ref/GENCODE/mouse/M8/annotation/CHR/protein_coding/protein_coding.filtered.noSelenocysteine.gtf | sed 's/[";]//g;' | awk '{OFS="\t"; print $1, $4-1,$5,$12,0,$7,$18,$14,$10}' >/Users/huf/ref/GENCODE/mouse/M8/annotation/CHR/protein_coding/protein_coding.filtered.noSelenocysteine.transcript.bed # REF http://onetipperday.sterding.com/2012/08/convert-bed-to-gtf.html
 
-python ~/code/github/ORF-RATER/prune_transcripts.py --inbed /Users/huf/ref/GENCODE/mouse/M8/annotation/CHR/protein_coding/protein_coding.filtered.noSelenocysteine.transcript.bed --outbed /Users/huf/out/orf-discovery/BMDM/ribo-seq/manuel/LPS/ORF-RATER/transcripts.bed --summarytable /Users/huf/out/orf-discovery/BMDM/ribo-seq/manuel/LPS/ORF-RATER/summary.txt --minlen 28 --maxlen 30 -vv -p 2 -f --keeptempfiles ~/ref/GENCODE/mouse/M8/fasta/genome/CHR/GRCm38.CHR.genome.fa /Users/huf/out/orf-discovery/BMDM/ribo-seq/manuel/LPS/tophat/transcriptome/accepted_hits.q10.bam >/Users/huf/out/orf-discovery/BMDM/ribo-seq/manuel/LPS/ORF-RATER/log/run-$(date +%s).log
+python ~/code/github/ORF-RATER/prune_transcripts.py --inbed /Users/huf/ref/GENCODE/mouse/M8/annotation/CHR/protein_coding/protein_coding.filtered.noSelenocysteine.transcript.bed --outbed /Users/huf/out/orf-discovery/BMDM/ribo-seq/manuel/LPS/ORF-RATER/transcripts.bed --summarytable /Users/huf/out/orf-discovery/BMDM/ribo-seq/manuel/LPS/ORF-RATER/summary.txt --minlen 28 --maxlen 30 -vv -p 2 -f --keeptempfiles ~/ref/GENCODE/mouse/M8/fasta/genome/CHR/GRCm38.CHR.genome.fa /Users/huf/out/orf-discovery/BMDM/ribo-seq/manuel/LPS/hisat2/transcriptome_q4.sorted.bam >/Users/huf/out/orf-discovery/BMDM/ribo-seq/manuel/LPS/ORF-RATER/log/run-$(date +%s).log
+
+Upstream open reading frames (uORFs) are prevalent in the human transcriptome and may negatively regulate the abundance of canonically encoding proteins through the promotion of mRNA decay and competitive expression, among other mechanisms. uORFs are conserved across species and have been annotated to genes with diverse biological functions, including but not limited to oncogenes, cell cycle control and differentiation, and stress response. As such, the aberrant expression of certain uORFs has been implicated in the development and progression of various diseases. Therefore, the positive identification and validation of uORFs as translational products is critical for understanding their role in complex biological processes and disease etiology. Where mRNA-Seq has been used to approximate the transcriptomic content of a cell, or group of cells, the recently developed method of sequencing ribosome-protected fragments aims to profile the translational landscape of a sample. In concert, various algorithms have been developed to differentiate coding transcripts from non-coding transcripts based on the alignment of ribosome-protected fragments to a reference transcriptome. We have developed a classification algorithm based on the magnitude of coherence between the aligned ribosome profiling reads and tri-nucleotide periodic signal inherent to protein-coding sequences.
 

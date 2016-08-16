@@ -83,6 +83,12 @@ bowtie-build $GPATH/fasta/genome/CHR/GRCm38.CHR.genome.fa $GPATH/fasta/genome/CH
 bowtie2-build $GPATH/fasta/genome/CHR/GRCm38.CHR.genome.fa $GPATH/fasta/genome/CHR/GRCm38.CHR.genome
 samtools faidx $GPATH/fasta/genome/CHR/GRCm38.CHR.genome.fa
 
+# Creaate reverse complement sequences for ORFs finding in the reverse strand
+# Ref https://www.biostars.org/p/70558/
+brew install homebrew/science/emboss
+revseq GRCm38.CHR.genome.fa -reverse -complement -outseq $GPATH/fasta/genome/CHR/GRCm38.CHR.genome.revcomp.fa
+
+
 # RTCm38/mm10 tRNAs 
 # GENCODE vM8 has 26248 entries predicted by tRNAscan-SE
 # GtRNAdb 432 (ref http://lowelab.ucsc.edu/GtRNAdb/Mmusc10/)
