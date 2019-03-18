@@ -101,7 +101,11 @@ Given transcriptome sequences, we exhaustively searched for putative ORFs beginn
 Rscript ~/code/github/orf-discovery/script/ORFPredict.R $START_CODON $TRANSCRIPTOME_FASTA $GTF $ORGANISM $NCORE 
 ```
 
-In the output file, a unique ID is given for each ORF, for example: ENSMUST00000000028.13:Cdc45:protein_coding:136:150:0:GTG, the fields separated by colons are Transcript ID, gene symbol, transcript biotype, transcript start, transcript stop, frame, start codon. 
+In the output file, a unique ID is given for each ORF, for example:
+
+    ENSMUST00000000010.8:Hoxb9:protein_coding:117:134:2:ATG
+
+the fields separated by colons are **Transcript ID**, **gene symbol**, **transcript biotype**, **transcript start**, **transcript stop**, **reading frame**, **start codon**. 
 
 ## Support
 
