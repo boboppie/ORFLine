@@ -43,6 +43,14 @@ Comprehensive gene annotation | The main annotation file (GTF and GFF3 format) |
 LncRNA gene annotation | comprehensive gene annotation of lncRNA genes (GTF and GFF3 format) | CHR | GENCODE
 tRNA sequences | Nucleotide sequences of tRNA genes predicted by UCSC using tRNAscan-SE (Fasta format) | CHR | UCSC Table Browser
 
+#### Defining transcript sets
+
+We combined GENCODE protein-coding transcripts and LncRNA transcripts to form reference transcriptome. Users can potentially assemble the transcriptome using RNA-seq data (e.g. [Cufflinks](http://cole-trapnell-lab.github.io/cufflinks/)), however, Studies have shown that computational approaches produce a large number of artefacts (false positives), which absorbed a substantial proportion of the reads from truly expressed transcripts and were assigned large expression estimates.
+
+#### Defining ORFs
+
+Given transcriptome sequences, we exhaustively searched for ORFs beginning with a start codon (“ATG”, “TTG”, “CTG”, “GTG”) and ending with a stop codon ("TAG", "TAA", "TGA") without an intervening stop codon in between in each of the three reading frames.
+
 ## Support
 
 ### email
