@@ -25,6 +25,13 @@ tree.  Currently, the tree is hosted on github, and can be obtained via:
 * [EMBOSS](http://emboss.sourceforge.net/)
 * [R](https://www.r-project.org/)
 
+### Tutorial to run the pipeline
+
+#### Annotation
+
+We recommend to use [GENCODE](https://www.gencodegenes.org/) annotation (GTF/GFF3 files) and genome and transcript sequences (FASTA files) for Human and Mouse. For other species, we have used [Ensembl](https://www.ensembl.org/info/data/ftp/index.html) annotation for Zebrafish.
+
+
 
 ## Support
 
