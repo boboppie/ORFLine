@@ -26,9 +26,9 @@ tree.  Currently, the tree is hosted on github, and can be obtained via:
 * [R](https://www.r-project.org/)
 
 R/Bioconductor packages:
-* riboSeqR
-* GenomicFeatures
-* rtracklayer
+* [riboSeqR](http://bioconductor.org/packages/release/bioc/html/riboSeqR.html)
+* [GenomicFeatures](http://bioconductor.org/packages/release/bioc/html/GenomicFeatures.html)
+* [rtracklayer](http://bioconductor.org/packages/release/bioc/html/rtracklayer.html)
 
 ### Tutorial to run the pipeline
 
