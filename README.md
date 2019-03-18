@@ -23,7 +23,7 @@ tree.  Currently, the tree is hosted on github, and can be obtained via:
 * [plastid](https://plastid.readthedocs.io/en/latest/index.html)
 * [StringTie](https://ccb.jhu.edu/software/stringtie/)
 * [EMBOSS](http://emboss.sourceforge.net/)
-* [GNU Parallel](https://www.gnu.org/software/parallel/)(recommended)
+* [GNU Parallel](https://www.gnu.org/software/parallel/) (recommended)
 * [R](https://www.r-project.org/)
 
 R/Bioconductor packages:
