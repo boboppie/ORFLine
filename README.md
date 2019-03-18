@@ -105,7 +105,7 @@ In the output file, a unique ID is given for each ORF, for example:
 
     ENSMUST00000000010.8:Hoxb9:protein_coding:117:134:2:ATG
 
-the fields separated by colons are **Transcript ID**, **gene symbol**, **transcript biotype**, **transcript start**, **transcript stop**, **reading frame**, **start codon**. 
+the fields separated by colons are **transcript ID**, **gene symbol**, **transcript biotype**, **transcript start**, **transcript stop**, **reading frame**, **start codon**. 
 
 ## Support
 
