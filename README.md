@@ -110,22 +110,18 @@ In the output file, a unique ID is given for each ORF, for example:
 
 the fields separated by colons are **transcript ID**, **gene symbol**, **transcript biotype**, **transcript start**, **transcript stop**, **reading frame**, **start codon**. 
 
-User can ran the R script for each start codon, and merged them to a single file by *cat*, for example:
+User can ran the R script for each start codon and keep them in the same directory.
+
+We are interesed in smORFs (less than 100 codons). In order to filter for them, firstly, we calculate the length of ORFs, for example:
 
 ```bash
-cat orf_*.bed >orf_ALL.bed
-```
-
-We are interesed in smORFs (less than 100 codons). In order to filter for them, firstly, we calculate the length of all ORFs:
-
-```bash
-cut -f11 orfs_ALL.bed | sed -e 's/,/\t/g' | awk '{for(i=t=0;i<NF;) t+=$++i; $0=t}1' >orfs_ALL.width
+cut -f11 orfs_ATG.bed | sed -e 's/,/\t/g' | awk '{for(i=t=0;i<NF;) t+=$++i; $0=t}1' >orfs_ATG.width
 ```
 
 Then, we only keep the smORFs:
 
 ```bash
-paste -d'\t' orfs_ALL.bed orfs_ALL.width | awk '$13 <= 303' | cut -f1-12 | sort -k4 >orfs_ALL.smORFs_100.bed
+paste -d'\t' orfs_ATG.bed orfs_ATG.width | awk '$13 <= 303' | cut -f1-12 | sort -k4 >orfs_ATG.smORFs_100.bed
 ```
 
 #### Ribosome profiling (Ribo-Seq) data processing
