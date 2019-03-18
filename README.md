@@ -25,6 +25,11 @@ tree.  Currently, the tree is hosted on github, and can be obtained via:
 * [EMBOSS](http://emboss.sourceforge.net/)
 * [R](https://www.r-project.org/)
 
+R/Bioconductor packages:
+* riboSeqR
+* GenomicFeatures
+* rtracklayer
+
 ### Tutorial to run the pipeline
 
 #### Annotation
