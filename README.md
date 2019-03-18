@@ -81,6 +81,8 @@ cd ~/ref/GENCODE/mouse/M13/fasta/transcriptome/
 
 Given transcriptome sequences, we exhaustively searched for putative ORFs beginning with a start codon (“ATG”, “TTG”, “CTG”, “GTG”) and ending with a stop codon ("TAG", "TAA", "TGA") without an intervening stop codon in between in each of the three reading frames.
 
+Code to generate putative ORFs:
+
 ```bash
 # Arguments:
 # START_CODON - start codon, can be “ATG”, “TTG”, “CTG”, “GTG”  
@@ -107,6 +109,24 @@ In the output file, a unique ID is given for each ORF, for example:
     ENSMUST00000000010.8:Hoxb9:protein_coding:117:134:2:ATG
 
 the fields separated by colons are **transcript ID**, **gene symbol**, **transcript biotype**, **transcript start**, **transcript stop**, **reading frame**, **start codon**. 
+
+User can ran the R script for each start codon, and merged them to a single file by *cat*, for example:
+
+```bash
+cat orf_*.bed >orf_ALL.bed
+```
+
+We are interesed in smORFs (less than 100 codons). In order to filter for them, firstly, we calculate the length of all ORFs:
+
+```bash
+cut -f11 orfs_ALL.bed | sed -e 's/,/\t/g' | awk '{for(i=t=0;i<NF;) t+=$++i; $0=t}1' >orfs_ALL.width
+```
+
+Then, we only keep the smORFs:
+
+```bash
+paste -d'\t' orfs_ALL.bed orfs_ALL.width | awk '$13 <= 303' | cut -f1-12 | sort -k4 >orfs_ALL.smORFs_100.bed
+```
 
 #### Ribosome profiling (Ribo-Seq) data processing
 
