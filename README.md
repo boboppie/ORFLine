@@ -96,10 +96,12 @@ Given transcriptome sequences, we exhaustively searched for putative ORFs beginn
 # NCORE=8 
 #
 # Output:
-# The output file is in BED format (https://genome.ucsc.edu/FAQ/FAQformat#format1) 
+# The output file is in BED12 format (https://genome.ucsc.edu/FAQ/FAQformat#format1) and named orf_$START_CODON.bed 
 
 Rscript ~/code/github/orf-discovery/script/ORFPredict.R $START_CODON $TRANSCRIPTOME_FASTA $GTF $ORGANISM $NCORE 
 ```
+
+In the output file, a unique ID is given for each ORF, for example: ENSMUST00000000028.13:Cdc45:protein_coding:136:150:0:GTG, the fields separated by colons are Transcript ID, gene symbol, transcript biotype, transcript start, transcript stop, frame, start codon. 
 
 ## Support
 
