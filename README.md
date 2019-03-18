@@ -11,7 +11,11 @@ tree.  Currently, the tree is hosted on github, and can be obtained via:
     
 ## Usage
 
+### Dependencies
 
+* [Samtools](http://www.htslib.org/)
+* [bedtools] (https://bedtools.readthedocs.io/en/latest/)
+* [BEDOPS](https://bedops.readthedocs.io/en/latest/)
 
 ## Support
 
