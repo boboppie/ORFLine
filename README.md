@@ -129,6 +129,10 @@ paste -d'\t' orfs_ATG.bed orfs_ATG.width | awk '$13 <= 303' | cut -f1-12 | sort 
 Ribo-Seq libraries are in general single-end and reads are 50bp long.
 
 QC
+
+```bash
+fastqc -t $THREADS -o $OUTPATH/fastqc $RAWDATAPATH/${RAWDATAFILENAME}.fastq.gz
+```
 adapter trimming
 contaimination removing
 align to reference genome
