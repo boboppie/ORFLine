@@ -108,6 +108,12 @@ In the output file, a unique ID is given for each ORF, for example:
 
 the fields separated by colons are **transcript ID**, **gene symbol**, **transcript biotype**, **transcript start**, **transcript stop**, **reading frame**, **start codon**. 
 
+#### Ribosome profiling (Ribo-Seq) data processing
+
+#### RNA-Seq data processing
+
+#### ORF calling
+
 ## Support
 
 ### email
