@@ -52,9 +52,30 @@ tRNA sequences | Nucleotide sequences of tRNA genes predicted by UCSC using tRNA
 
 We combined GENCODE protein-coding transcripts and LncRNA transcripts to form reference transcriptome. Users can potentially assemble the transcriptome using RNA-seq data (e.g. [Cufflinks](http://cole-trapnell-lab.github.io/cufflinks/)), however, Studies have shown that computational approaches produce a large number of artefacts (false positives), which absorbed a substantial proportion of the reads from truly expressed transcripts and were assigned large expression estimates.
 
+We do not consider the following [biotypes](https://www.gencodegenes.org/pages/biotypes.html):
+* IG_* and TR_* (Immunoglobulin variable chain and T-cell receptor genes)
+* miRNA
+* misc_RNA
+* Mt_rRNA and Mt_tRNA
+* rRNA and ribozyme
+* scaRNA, scRNA, snoRNA, snRNA and sRNA
+* nonsense_mediated_decay
+* non_stop_decay
+
+
+For example, transcript sequences can be merged by:
+
+```bash
+cat 
+```
+
 #### Defining ORFs
 
-Given transcriptome sequences, we exhaustively searched for ORFs beginning with a start codon (“ATG”, “TTG”, “CTG”, “GTG”) and ending with a stop codon ("TAG", "TAA", "TGA") without an intervening stop codon in between in each of the three reading frames.
+Given transcriptome sequences, we exhaustively searched for putative ORFs beginning with a start codon (“ATG”, “TTG”, “CTG”, “GTG”) and ending with a stop codon ("TAG", "TAA", "TGA") without an intervening stop codon in between in each of the three reading frames.
+
+```bash
+R
+```
 
 ## Support
 
