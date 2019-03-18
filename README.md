@@ -29,8 +29,14 @@ tree.  Currently, the tree is hosted on github, and can be obtained via:
 
 #### Annotation
 
-We recommend to use [GENCODE](https://www.gencodegenes.org/) annotation (GTF/GFF3 files) and genome and transcript sequences (FASTA files) for Human and Mouse. For other species, we have used [Ensembl](https://www.ensembl.org/info/data/ftp/index.html) annotation for Zebrafish.
+We recommend to use [GENCODE](https://www.gencodegenes.org/) annotation (GTF/GFF3 files) and genome and transcript sequences (Fasta files) for Human and Mouse. For other species, we have used [Ensembl](https://www.ensembl.org/info/data/ftp/index.html) annotation for Zebrafish. tRNA sequences can be downloaded from UCSC Table Browser.
 
+For example, we have downloaded the following public sequences and annotation files for Mouse:
+
+File | Type | Region | Source
+---- | ---- | ------ | ------
+Genome sequence, primary assembly | Nucleotide sequence of the GRCm38 primary genome assembly (Fasta format) | PRI (reference chromosomes and scaffolds) | GENCODE
+Transcript sequences | Nucleotide sequences of all transcripts (Fasta format) | CHR (reference chromosomes only) | GENCODE
 
 
 ## Support
