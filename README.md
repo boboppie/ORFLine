@@ -147,13 +147,13 @@ User can ran the R script for each start codon and keep them in the same directo
 We are interesed in smORFs (less than 100 codons). In order to filter for them, firstly, we calculate the length of ORFs, for example:
 
 ```bash
-cut -f11 <orfs_ATG.bed> | sed -e 's/,/\t/g' | awk '{for(i=t=0;i<NF;) t+=$++i; $0=t}1' ><orfs_ATG.width>
+cut -f11 <orfs_ATG.bed> | sed -e 's/,/\t/g' | awk '{for(i=t=0;i<NF;) t+=$++i; $0=t}1' > <orfs_ATG.width>
 ```
 
 Then, we only keep the smORFs:
 
 ```bash
-paste -d'\t' <orfs_ATG.bed> <orfs_ATG.width> | awk '$13 <= 303' | cut -f1-12 | sort -k4 ><orfs_ATG.smORFs_100.bed>
+paste -d'\t' <orfs_ATG.bed> <orfs_ATG.width> | awk '$13 <= 303' | cut -f1-12 | sort -k4 > <orfs_ATG.smORFs_100.bed>
 ```
 
 ### Ribo-Seq data processing
@@ -221,13 +221,24 @@ Ribo-Seq libraries are in general single-end and reads are 50bp long. We have th
        NR_137295.1 Homo sapiens mitochondrially encoded 16S ribosomal RNA (RNR2), ribosomal RNA
        https://www.ncbi.nlm.nih.gov/nuccore/NR_137295.1?report=fasta
     
-   Then Bowtie index will be built for the sequences, for example:
+   Next Bowtie index will be built for the sequences, for example:
    
    ```bash
-   bowtie-build <contaimination.fa> <contaimination> 
+   # All contaminant sequeneces can be merged in a file, assume named contaimination.fa
+   
+   bowtie-build <contaimination.fa> <contaimination_bowtie_index_dir> 
    ```
-    
-4. align to reference genome
+   
+   Then reads will be mapped to contaminant sequeneces, the unmapped reads will be kept for genome alignment, for example:
+   
+   ```bash
+   bowtie -a --best --strata -S --seed 23 -p <threads> --chunkmbs 256 --norc --maqerr=60 --un <trimmed_unfiltered.fq> <contaimination_bowtie_index_dir> <(gzip -dc <trimmed.fq.gz>) <trimmed_filtered.sam>
+   ```
+   
+   
+4. Aligning to reference genome
+
+
 5. P-site calling
 
 ### RNA-Seq data processing
