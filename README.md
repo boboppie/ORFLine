@@ -175,7 +175,7 @@ fastqc -t $THREADS -o $OUTPATH/fastqc $RAWDATAPATH/${RAWDATAFILENAME}.fastq.gz
 trim_galore -q 33 --fastqc --trim-n -e 0.1 --stringency 3 $RAWDATAPATH/${RAWDATAFILENAME}.fastq.gz -o $OUTPATH/trim_galore
 ```
 
-3. contaimination removing
+3. Contaimination removing
 
    In order to remove rRNA/tRNA content or other contaminants in the sample, we used Bowtie (version 1) to align the trimmed  reads against specific contaminant sequences assembled from a collection of rRNA, Mt_rRNA, Mt_tRNA, snRNA, snoRNA, misc_RNA, miRNA (from GENCODE) and tRNA (from UCSC) sequences, we also include the following sequences from NCBI:  
     
@@ -215,6 +215,12 @@ trim_galore -q 33 --fastqc --trim-n -e 0.1 --stringency 3 $RAWDATAPATH/${RAWDATA
        NR_046235.3 Homo sapiens RNA, 45S pre-ribosomal (LOC100861532), ribosomal RNA
        NR_137294.1 Homo sapiens mitochondrially encoded 12S ribosomal RNA (RNR1), ribosomal RNA
        NR_137295.1 Homo sapiens mitochondrially encoded 16S ribosomal RNA (RNR2), ribosomal RNA
+    
+   Then Bowtie index will be built for the sequences:
+   
+   ```bash
+   bowtie 
+   ```
     
 4. align to reference genome
 5. P-site calling
