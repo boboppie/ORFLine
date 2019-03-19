@@ -302,7 +302,40 @@ Ribo-Seq libraries are in general single-end and reads are 50bp long. We have th
                  --fiveprime_variable \
                  --offset <psite_dir>/p_offsets.txt \
                  --codon_buffer 5
-   ```              
+   ```
+   
+   The output of for psite offset estimation is like: 
+   
+       length  p_offset
+       25      7
+       26      8
+       27      9
+       28      12
+       29      12
+       30      12
+       31      12
+       32      13
+       33      13
+       34      13
+       35      13
+       default 13
+       
+   The output of phasing is like:
+   
+       read_length     reads_counted   fraction_reads_counted  phase0  phase1  phase2
+       25      19781   0.015942        0.332946        0.443304        0.223750
+       26      26675   0.021498        0.331621        0.264105        0.404274
+       27      47856   0.038568        0.588829        0.177094        0.234077
+       28      97003   0.078176        0.461099        0.166923        0.371978
+       29      216829  0.174745        0.607806        0.175069        0.217125 
+       30      374353  0.301695        0.699292        0.086186        0.214522
+       31      298826  0.240827        0.534723        0.052951        0.412327
+       32      121240  0.097709        0.592610        0.329627        0.077763
+       33      30141   0.024291        0.567732        0.313991        0.118277
+       34      6519    0.005254        0.557908        0.312931        0.129161
+       35      1609    0.001297        0.517091        0.324425        0.158484
+       
+   We can see that read length 29-31 have strong baise for phase0 or reading frame 1    
 
 ### RNA-Seq data processing
 
