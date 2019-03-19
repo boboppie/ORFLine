@@ -260,11 +260,16 @@ Ribo-Seq libraries are in general single-end and reads are 50bp long. We have th
    
    STAR --runThreadN <threads> --genomeDir <star_ribo_dir> \
         --readFilesIn <trimmed_unfiltered.fq.gz> --readFilesCommand zcat \
-        --outReadsUnmapped Fastx --outFileNamePrefix $OUTPATH/star-genome/${RAWDATAFILENAME}/ \
+        --outReadsUnmapped Fastx --outFileNamePrefix <prefix> \
         --alignIntronMin <alignIntronMin> --alignIntronMax <alignIntronMax> --alignEndsType EndToEnd \
         --outFilterMismatchNmax <mismatch_max> --outFilterMismatchNoverLmax <mismatch_noverl_max>\
         --outFilterType <filter_type> --outFilterIntronMotifs RemoveNoncanonicalUnannotated \
         --outSAMattributes <sam_attr> --outSAMtype BAM SortedByCoordinate --outBAMsortingThreadN <threads>
+        
+   # Only uniquely mapped reads are kept for ORF calling
+   
+   samtools view -b -q 255 <Aligned.sortedByCoord.out.bam> > <Aligned.sortedByCoord.out_q255.bam>
+   samtools index <Aligned.sortedByCoord.out_q255.bam>    
    
    ```
 
