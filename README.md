@@ -177,17 +177,45 @@ trim_galore -q 33 --fastqc --trim-n -e 0.1 --stringency 3 $RAWDATAPATH/${RAWDATA
 
 3. contaimination removing
 
-   In order to remove rRNA/tRNA content or other contaminants in the sample, we used Bowtie (version 1) to align the trimmed  reads against specific contaminant sequences assembled from a collection of mouse rRNA, Mt_rRNA, Mt_tRNA, snRNA, snoRNA, misc_RNA, miRNA (from GENCODE) and tRNA (from UCSC) sequences, we also include the following sequences from NCBI:  
+   In order to remove rRNA/tRNA content or other contaminants in the sample, we used Bowtie (version 1) to align the trimmed  reads against specific contaminant sequences assembled from a collection of rRNA, Mt_rRNA, Mt_tRNA, snRNA, snoRNA, misc_RNA, miRNA (from GENCODE) and tRNA (from UCSC) sequences, we also include the following sequences from NCBI:  
     
-       gi|577019615|ref|NR_046233.2| Mus musculus 45S pre-ribosomal RNA (Rn45s), ribosomal RNA
-       gi|511668571|tpg|BK000964.3| TPA_exp: Mus musculus ribosomal DNA, complete repeating unit
-       gi|120444900|ref|NR_003279.1| Mus musculus 28S ribosomal RNA (Rn28s1), ribosomal RNA
-       gi|307829144|gb|GU372691.1| Mus musculus strain BALB/c 45S ribosomal RNA region genomic sequence
-       gi|70672673|gb|DQ023291.1| Microarray spike-in control plasmid pNIAysic-5, complete sequence
-       gi|693074770|ref|NG_001436.4| Mus musculus 4.5s RNA, pseudogene 1 (Rn4.5s-ps1) on chromosome 1
+       TPA_exp: Mus musculus ribosomal DNA, complete repeating unit
+       http://www.ncbi.nlm.nih.gov/nuccore/511668571?report=fasta
+
+       Mus musculus 45S pre-ribosomal RNA (Rn45s), ribosomal RNA
+       http://www.ncbi.nlm.nih.gov/nuccore/577019615?report=fasta
+
+       Mus musculus 28S ribosomal RNA (Rn28s1), ribosomal RNA
+       http://www.ncbi.nlm.nih.gov/nuccore/120444900?report=fasta
+
+       Mus musculus strain BALB/c 45S ribosomal RNA region genomic sequence
+       http://www.ncbi.nlm.nih.gov/nuccore/307829144?report=fasta
+
+       Mus musculus 4.5s RNA, pseudogene 1 (Rn4.5s-ps1) on chromosome 1
+       http://www.ncbi.nlm.nih.gov/nuccore/693074770?report=fasta
+
+       Microarray spike-in control plasmid pNIAysic-5, complete sequence
+       http://www.ncbi.nlm.nih.gov/nuccore/70672673?report=fasta
+
+       Human 28S ribosomal RNA gene
+       http://www.ncbi.nlm.nih.gov/nuccore/337381?report=fasta
+
+       Human 28S ribosomal RNA gene, complete cds
+       http://www.ncbi.nlm.nih.gov/nuccore/337384?report=fasta
+
+       Human ribosomal DNA complete repeating unit
+       http://www.ncbi.nlm.nih.gov/nuccore/555853?report=fasta
+
+       Homo sapiens RNA, 45S pre-ribosomal 5 (RNA45S5), ribosomal RNA
+       http://www.ncbi.nlm.nih.gov/nuccore/374429547?report=fasta
+
+       Chain 5, Structure Of The H. Sapiens 60s Rrna
+       http://www.ncbi.nlm.nih.gov/nuccore/485601478?report=fasta
+
+       NR_046235.3 Homo sapiens RNA, 45S pre-ribosomal (LOC100861532), ribosomal RNA
+       NR_137294.1 Homo sapiens mitochondrially encoded 12S ribosomal RNA (RNR1), ribosomal RNA
+       NR_137295.1 Homo sapiens mitochondrially encoded 16S ribosomal RNA (RNR2), ribosomal RNA
     
-
-
 4. align to reference genome
 5. P-site calling
 
