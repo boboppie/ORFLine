@@ -65,8 +65,8 @@ RUN_THE_SCRIPT
 
 ### Output
 
-column | 
------- | ----
+column | ex
+------ | --
 A | ...
 
 
@@ -382,7 +382,17 @@ The ORF calling workflow has the following steps:
 
 #### 1. BAM filter
 
+Given a range of read length (min_len, max_len) based on phasing estimation, the BAM file will be filtered, for example:
+
+```bash
+samtools view -h <ribo.bam> | awk -v minl="<min_len>" -v maxl="<max_len>" 'length($10) >= minl && length($10) <= maxl || $1 ~ /^@/' | samtools view -bS - > filtered.bam
+
+samtools index filtered.bam
+```
+
 #### 2. Read count filter
+
+There has to be at least 10 reads falling into an ORF. bedtools
 
 #### 3. RPF count filter
 
