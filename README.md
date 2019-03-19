@@ -160,13 +160,13 @@ paste -d'\t' <orfs_ATG.bed> <orfs_ATG.width> | awk '$13 <= 303' | cut -f1-12 | s
 
 Ribo-Seq libraries are in general single-end and reads are 50bp long. We have the following steps to process the raw sequencing data (Fastq format):
     
-1. Quality control. We use FastQC, for example: 
+#### 1. Quality control. We use FastQC, for example: 
 
    ```bash
    fastqc -t <threads> -o <fastqc_dir> <sample.fastq.gz>
    ```
 
-2. Adapter and quality trimming. We use Trim Galore ([user guide](https://github.com/FelixKrueger/TrimGalore/blob/master/Docs/Trim_Galore_User_Guide.md)), for example:
+#### 2. Adapter and quality trimming. We use Trim Galore ([user guide](https://github.com/FelixKrueger/TrimGalore/blob/master/Docs/Trim_Galore_User_Guide.md)), for example:
 
    ```bash
    # User can give a customized adapter by flag -a, or trim_galore will automatically detect the adapter if it's standard
@@ -175,7 +175,7 @@ Ribo-Seq libraries are in general single-end and reads are 50bp long. We have th
    trim_galore -q 33 --fastqc --trim-n -e 0.1 --stringency 3 <sample.fastq.gz> -o <trim_galore_dir>
    ```
 
-3. Contaimination removing
+#### 3. Contaimination removing
 
    In order to remove rRNA/tRNA content or other contaminants in the sample, we used Bowtie (version 1) to align the trimmed  reads against specific contaminant sequences assembled from a collection of rRNA, Mt_rRNA, Mt_tRNA, snRNA, snoRNA, misc_RNA, miRNA (from GENCODE) and tRNA (from UCSC) sequences, we also include the following sequences from NCBI:  
     
@@ -238,7 +238,7 @@ Ribo-Seq libraries are in general single-end and reads are 50bp long. We have th
    
    ```
    
-4. Aligning to reference genome
+#### 4. Aligning to reference genome
 
    We use START aligner. Firstly, we build STAR index for the genome.
    
@@ -272,7 +272,7 @@ Ribo-Seq libraries are in general single-end and reads are 50bp long. We have th
    samtools index <sample_q255.bam>
    ```
 
-5. P-site calling
+#### 5. P-site calling
 
    P-site offset is the distance from the 5’ or 3’ end of a ribosome-protected footprint to the P-site of the ribosome that generated the footprint. Because the P-site is the site where peptidyl elongation occurs, read alignments from ribosome profiling are frequently mapped to their P-sites. We use plastid Python package to estimate it from Ribo-Seq data.
 
@@ -335,13 +335,25 @@ Ribo-Seq libraries are in general single-end and reads are 50bp long. We have th
        34      6519    0.005254        0.557908        0.312931        0.129161
        35      1609    0.001297        0.517091        0.324425        0.158484
        
-   We can see that read length 29-31 have strong baise for phase0 or reading frame 1    
+   We can see that read length 29-31 have strong baised for phase0 or reading frame 1 (triplet periodicity, a feature of Ribo-Seq data)    
 
 ### RNA-Seq data processing
 
-QC
-adapter/quality trimming
-align to reference genome
+QC and adapter trimming are similar to Ribo-Seq data. RNA-seq data can be longer than 50bp (e.g. 75bp/100bp) and paired-end, when making STAR index, the sjdbOverhang needs to change accordingly (e.g. if the library is 100bp, the sjdbOverhang should be 100-1). One example to align paired-end RNA-seq using STAR:
+
+```bash
+nice -5 STAR --runThreadN <threads> --genomeDir <star_rna_100_pe_dir> \
+                       --readFilesIn <R1_trimmed.fq.gz> <R2_trimmed.fq.gz> --readFilesCommand zcat \
+                       --alignEndsType EndToEnd \
+                       --outFilterMismatchNmax <mismatch_max> \
+                       --outReadsUnmapped Fastx --outFileNamePrefix <prefix> \
+                       --outSAMattributes <sam_attr> --outSAMunmapped Within --outSAMtype BAM SortedByCoordinate \
+                       --outBAMsortingThreadN <threads>
+```
+
+#### Transcript expression estimation
+
+One additional step is to estimate transcript expression value (FPKM or TPM)
 
 ### ORF calling
 
