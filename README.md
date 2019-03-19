@@ -179,14 +179,12 @@ trim_galore -q 33 --fastqc --trim-n -e 0.1 --stringency 3 $RAWDATAPATH/${RAWDATA
 
 In order to remove rRNA/tRNA content or other contaminants in the sample, we used Bowtie (version 1) to align the trimmed reads against specific contaminant sequences assembled from a collection of mouse rRNA, Mt_rRNA, Mt_tRNA, snRNA, snoRNA, misc_RNA, miRNA (from GENCODE) and tRNA (from UCSC) sequences, we also include the following sequences from NCBI:  
     
-    ```  
     gi|577019615|ref|NR_046233.2| Mus musculus 45S pre-ribosomal RNA (Rn45s), ribosomal RNA
     gi|511668571|tpg|BK000964.3| TPA_exp: Mus musculus ribosomal DNA, complete repeating unit
     gi|120444900|ref|NR_003279.1| Mus musculus 28S ribosomal RNA (Rn28s1), ribosomal RNA
     gi|307829144|gb|GU372691.1| Mus musculus strain BALB/c 45S ribosomal RNA region genomic sequence
     gi|70672673|gb|DQ023291.1| Microarray spike-in control plasmid pNIAysic-5, complete sequence
     gi|693074770|ref|NG_001436.4| Mus musculus 4.5s RNA, pseudogene 1 (Rn4.5s-ps1) on chromosome 1
-    ``` 
     
 
 
