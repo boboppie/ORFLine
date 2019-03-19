@@ -355,7 +355,11 @@ nice -5 STAR --runThreadN <threads> --genomeDir <star_rna_100_pe_dir> \
 
 #### Transcript expression estimation
 
-One additional step is to estimate transcript expression value (FPKM or TPM)
+One additional step is to estimate transcript expression value (FPKM or TPM), only expressed transcripts (FPKM > 0.5) will be considered for ORF calling. We use StringTie to estimate FPKM values, for example:  
+
+```bash
+stringtie <sample_q255.bam>  -p <threads> -G <protein_coding.gtf> -eB -o expressed.gtf -A gene_abund.tab -C cov_refs.gtf
+```
 
 ### ORF calling
 
@@ -369,13 +373,17 @@ The ORF calling workflow has the following steps:
 
 #### 4. Transcript expression filter
 
-#### 5.
+#### 5. Label filter
 
-#### 6.
+#### 6. ORFScore filter
 
-#### 7.
+#### 7. Region filter
 
-#### 8.
+#### 8. Ribosome release score (RRS) filter
+
+#### 9. Nested filter
+
+#### 10. FDR filter
 
 ## Support
 
