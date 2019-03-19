@@ -268,8 +268,8 @@ Ribo-Seq libraries are in general single-end and reads are 50bp long. We have th
         
    # Only uniquely mapped reads are kept for ORF calling
    
-   samtools view -b -q 255 <Aligned.sortedByCoord.out.bam> > <Aligned.sortedByCoord.out_q255.bam>
-   samtools index <Aligned.sortedByCoord.out_q255.bam>
+   samtools view -b -q 255 <Aligned.sortedByCoord.out.bam> > <sample_q255.bam>
+   samtools index <sample_q255.bam>
    ```
 
 5. P-site calling
@@ -288,17 +288,20 @@ Ribo-Seq libraries are in general single-end and reads are 50bp long. We have th
 
    ```bash
    metagene generate <metagene_analysis_dir> \
-                  --landmark cds_start \
-                  --annotation_files <protein_coding.gtf>
+                     --landmark cds_start \
+                     --annotation_files <protein_coding.gtf.gz>
    
-   psite $OUTPATH/plastid/psite/protein_coding_rois.txt $OUTPATH/plastid/psite/merged_q255_star_genome \
-      --min_length 25 --max_length 35 --require_upstream \
-      --count_files $OUTPATH/star-genome/merged_q255.bam
+   psite <metagene_analysis_dir>/protein_coding_rois.txt <psite_dir> \
+         --min_length 25 \
+         --max_length 35 \
+         --require_upstream \
+         --count_files <sample_q255.bam>
 
-   phase_by_size $OUTPATH/plastid/psite/protein_coding_rois.txt $OUTPATH/plastid/phasing/merged_q255_star_genome \
-              --count_files $OUTPATH/star-genome/merged_q255.bam \
-              --fiveprime_variable --offset $OUTPATH/plastid/psite/merged_q255_star_genome_p_offsets.txt \
-              --codon_buffer 5
+   phase_by_size <metagene_analysis_dir>/protein_coding_rois.txt <phasing_dir> \
+                 --count_files <sample_q255.bam> \
+                 --fiveprime_variable \
+                 --offset <psite_dir>/p_offsets.txt \
+                 --codon_buffer 5
    ```              
 
 ### RNA-Seq data processing
