@@ -273,7 +273,26 @@ Ribo-Seq libraries are in general single-end and reads are 50bp long. We have th
    
    ```
 
-5. P-site calling
+5. P-site calling. 
+
+   ```bash
+   metagene generate $OUTPATH/plastid/psite/protein_coding \
+                  --landmark cds_start \
+                  --annotation_files $PROTEINCODINGGTF
+   
+   psite $OUTPATH/plastid/psite/protein_coding_rois.txt $OUTPATH/plastid/psite/merged_q255_star_genome \
+      --min_length 25 --max_length 35 --require_upstream \
+      --count_files $OUTPATH/star-genome/merged_q255.bam     
+
+   # Phasing
+   # TODO how many reads in the given transcripts regions comparing to total reads after alignment
+   # samtools view -hL $PHASINGBED $OUTPATH/hisat2/${RAWDATAFILENAME}_transcriptome_q4.sorted.bam >
+
+   phase_by_size $OUTPATH/plastid/psite/protein_coding_rois.txt $OUTPATH/plastid/phasing/merged_q255_star_genome \
+              --count_files $OUTPATH/star-genome/merged_q255.bam \
+              --fiveprime_variable --offset $OUTPATH/plastid/psite/merged_q255_star_genome_p_offsets.txt \
+              --codon_buffer 5
+   ```              
 
 ### RNA-Seq data processing
 
