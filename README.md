@@ -163,7 +163,7 @@ Ribo-Seq libraries are in general single-end and reads are 50bp long. We have th
 1. Quality control. We use FastQC, for example: 
 
    ```bash
-   fastqc -t $THREADS -o $OUTPATH/fastqc $RAWDATAPATH/${RAWDATAFILENAME}.fastq.gz
+   fastqc -t <threads> -o <fastqc_dir> <sample.fastq.gz>
    ```
 
 2. Adapter and quality trimming. We use Trim Galore ([user guide](https://github.com/FelixKrueger/TrimGalore/blob/master/Docs/Trim_Galore_User_Guide.md)), for example:
@@ -172,7 +172,7 @@ Ribo-Seq libraries are in general single-end and reads are 50bp long. We have th
    # User can give a customized adapter by flag -a, or trim_galore will automatically detect the adapter if it's standard
    # To filter for read length, user can use flags such as --length 25 --max_length 35 for min and max length
 
-   trim_galore -q 33 --fastqc --trim-n -e 0.1 --stringency 3 $RAWDATAPATH/${RAWDATAFILENAME}.fastq.gz -o $OUTPATH/trim_galore
+   trim_galore -q 33 --fastqc --trim-n -e 0.1 --stringency 3 <sample.fastq.gz> -o <trim_galore_dir>
    ```
 
 3. Contaimination removing
@@ -221,10 +221,10 @@ Ribo-Seq libraries are in general single-end and reads are 50bp long. We have th
        NR_137295.1 Homo sapiens mitochondrially encoded 16S ribosomal RNA (RNR2), ribosomal RNA
        https://www.ncbi.nlm.nih.gov/nuccore/NR_137295.1?report=fasta
     
-   Then Bowtie index will be built for the sequences:
+   Then Bowtie index will be built for the sequences, for example:
    
    ```bash
-   bowtie 
+   bowtie-build <contaimination.fa> <contaimination> 
    ```
     
 4. align to reference genome
