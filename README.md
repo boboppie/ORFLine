@@ -63,6 +63,21 @@ RUN_THE_SCRIPT
 RUN_THE_SCRIPT
 ```
 
+### Output
+
+column | 
+------ | ----
+A | ...
+
+
+### Run on cluster
+
+TBC
+
+### Singularity Container
+
+TBC
+
 ## Pipeline explained
 
 ### Annotation
