@@ -13,7 +13,7 @@ tree.  Currently, the tree is hosted on github, and can be obtained via:
 
 ### Dependencies
 
-* [Samtools](http://www.htslib.org/)
+* [Samtools and HTSlib](http://www.htslib.org/)
 * [bedtools](https://bedtools.readthedocs.io/en/latest/)
 * [BEDOPS](https://bedops.readthedocs.io/en/latest/)
 * [Bowtie](http://bowtie-bio.sourceforge.net/index.shtml)
@@ -273,20 +273,25 @@ Ribo-Seq libraries are in general single-end and reads are 50bp long. We have th
    
    ```
 
-5. P-site calling. 
+5. P-site calling
+
+   P-site offset is the distance from the 5’ or 3’ end of a ribosome-protected footprint to the P-site of the ribosome that generated the footprint. Because the P-site is the site where peptidyl elongation occurs, read alignments from ribosome profiling are frequently mapped to their P-sites. We use plastid Python package to estimate it from Ribo-Seq data.
+
+   First of all, we create a protein coding gene annotation file (GTF format):
+    
+   ```bash
+   cat gencode.vM13.annotation.gtf | awk '{if($18=="\"protein_coding\";" && $0~"level (1|2);" && $0!~"tag \"seleno\";" && $0!~"cds_end_NF" && $0!~"cds_start_NF"){print $0}}' | sort -k1,1 -k4,4n | bgzip >pc_level1_2_noSeleno.gtf.gz
+   tabix -p gff pc_level1_2_noSeleno.gtf.gz 
+   ```
 
    ```bash
-   metagene generate $OUTPATH/plastid/psite/protein_coding \
+   metagene generate <metagene_analysis_dir> \
                   --landmark cds_start \
-                  --annotation_files $PROTEINCODINGGTF
+                  --annotation_files <protein_coding.gtf>
    
    psite $OUTPATH/plastid/psite/protein_coding_rois.txt $OUTPATH/plastid/psite/merged_q255_star_genome \
       --min_length 25 --max_length 35 --require_upstream \
-      --count_files $OUTPATH/star-genome/merged_q255.bam     
-
-   # Phasing
-   # TODO how many reads in the given transcripts regions comparing to total reads after alignment
-   # samtools view -hL $PHASINGBED $OUTPATH/hisat2/${RAWDATAFILENAME}_transcriptome_q4.sorted.bam >
+      --count_files $OUTPATH/star-genome/merged_q255.bam
 
    phase_by_size $OUTPATH/plastid/psite/protein_coding_rois.txt $OUTPATH/plastid/phasing/merged_q255_star_genome \
               --count_files $OUTPATH/star-genome/merged_q255.bam \
