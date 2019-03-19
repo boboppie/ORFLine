@@ -274,9 +274,9 @@ Ribo-Seq libraries are in general single-end and reads are 50bp long. We have th
 
 #### 5. P-site calling
 
-   P-site offset is the distance from the 5’ or 3’ end of a ribosome-protected footprint to the P-site of the ribosome that generated the footprint. Because the P-site is the site where peptidyl elongation occurs, read alignments from ribosome profiling are frequently mapped to their P-sites. We use plastid Python package to estimate it from Ribo-Seq data.
+   P-site offset is the distance from the 5’ or 3’ end of a ribosome-protected footprint (RPF) to the P-site of the ribosome that generated the footprint. Because the P-site is the site where peptidyl elongation occurs, read alignments from ribosome profiling are frequently mapped to their P-sites. We use plastid Python package to estimate it from Ribo-Seq data.
 
-   First of all, we create a protein coding gene annotation file (GTF format):
+   Firstly, we create a protein coding gene annotation file (GTF format):
     
    ```bash
    # We keep protein coding leve 1 and 2, not seleno proteins
@@ -286,6 +286,8 @@ Ribo-Seq libraries are in general single-end and reads are 50bp long. We have th
    tabix -p gff <protein_coding.gtf.gz>
    ```
 
+   Secondly, we run psite estimation and phasing estimation:
+   
    ```bash
    metagene generate <metagene_analysis_dir> \
                      --landmark cds_start \
@@ -356,6 +358,24 @@ nice -5 STAR --runThreadN <threads> --genomeDir <star_rna_100_pe_dir> \
 One additional step is to estimate transcript expression value (FPKM or TPM)
 
 ### ORF calling
+
+The ORF calling workflow has the following steps:
+
+#### 1. BAM filter
+
+#### 2. Read count filter
+
+#### 3. RPF count filter
+
+#### 4. Transcript expression filter
+
+#### 5.
+
+#### 6.
+
+#### 7.
+
+#### 8.
 
 ## Support
 
