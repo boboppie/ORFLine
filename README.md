@@ -269,8 +269,7 @@ Ribo-Seq libraries are in general single-end and reads are 50bp long. We have th
    # Only uniquely mapped reads are kept for ORF calling
    
    samtools view -b -q 255 <Aligned.sortedByCoord.out.bam> > <Aligned.sortedByCoord.out_q255.bam>
-   samtools index <Aligned.sortedByCoord.out_q255.bam>    
-   
+   samtools index <Aligned.sortedByCoord.out_q255.bam>
    ```
 
 5. P-site calling
@@ -280,8 +279,11 @@ Ribo-Seq libraries are in general single-end and reads are 50bp long. We have th
    First of all, we create a protein coding gene annotation file (GTF format):
     
    ```bash
-   cat gencode.vM13.annotation.gtf | awk '{if($18=="\"protein_coding\";" && $0~"level (1|2);" && $0!~"tag \"seleno\";" && $0!~"cds_end_NF" && $0!~"cds_start_NF"){print $0}}' | sort -k1,1 -k4,4n | bgzip >pc_level1_2_noSeleno.gtf.gz
-   tabix -p gff pc_level1_2_noSeleno.gtf.gz 
+   # We keep protein coding leve 1 and 2, not seleno proteins
+   
+   cat <gencode_annotation.gtf> | awk '{if($18=="\"protein_coding\";" && $0~"level (1|2);" && $0!~"tag \"seleno\";" && $0!~"cds_end_NF" && $0!~"cds_start_NF"){print $0}}' | sort -k1,1 -k4,4n | bgzip > <protein_coding.gtf.gz>
+   
+   tabix -p gff <protein_coding.gtf.gz>
    ```
 
    ```bash
