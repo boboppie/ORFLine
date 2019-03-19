@@ -126,7 +126,7 @@ paste -d'\t' orfs_ATG.bed orfs_ATG.width | awk '$13 <= 303' | cut -f1-12 | sort 
 
 #### Ribosome profiling (Ribo-Seq) data processing
 
-Ribo-Seq libraries are in general single-end and reads are 50bp long.
+Ribo-Seq libraries are in general single-end and reads are 50bp long. We have the following steps to process the raw sequencing data (Fastq format)
 
 QC
 
