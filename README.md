@@ -234,14 +234,39 @@ Ribo-Seq libraries are in general single-end and reads are 50bp long. We have th
    ```bash
    bowtie -a --best --strata -S --seed 23 -p <threads> --chunkmbs 256 --norc --maqerr=60 --un <trimmed_unfiltered.fq> <contaimination_bowtie_index_dir> <(gzip -dc <trimmed.fq.gz>) <trimmed_filtered.sam>
    
-   samtools view -bS -F 4 <trimmed_filtered.sam> | samtools sort - -o <trimmed_filtered.bam>
-   samtools index <trimmed_filtered.bam>
+   gzip <trimmed_unfiltered.fq>
    
    ```
    
-   
 4. Aligning to reference genome
 
+   We use START aligner. Firstly, we build STAR index for the genome.
+   
+   ```bash
+   # sjdbOverhang is the longest read length - 1
+   
+   STAR --runThreadN <threads> --runMode genomeGenerate --genomeDir <star_ribo_dir> --genomeFastaFiles <ref_genome.fa> --sjdbGTFfile <annotation.gtf> --sjdbOverhang <sjdbOverhang>
+   ```
+   
+   Then align to the reference genome, for example:
+   
+   ```bash
+   SAM_ATTR="NH HI NM MD AS"
+   ALIGNINTRON_MIN=20
+   ALIGNINTRON_MAX=10000
+   MISMATCH_MAX=1
+   MISMATCH_NOVERL_MAX=0.04
+   FILTER_TYPE=BySJout
+   
+   STAR --runThreadN <threads> --genomeDir <star_ribo_dir> \
+        --readFilesIn <trimmed_unfiltered.fq.gz> --readFilesCommand zcat \
+        --outReadsUnmapped Fastx --outFileNamePrefix $OUTPATH/star-genome/${RAWDATAFILENAME}/ \
+        --alignIntronMin <alignIntronMin> --alignIntronMax <alignIntronMax> --alignEndsType EndToEnd \
+        --outFilterMismatchNmax <mismatch_max> --outFilterMismatchNoverLmax <mismatch_noverl_max>\
+        --outFilterType <filter_type> --outFilterIntronMotifs RemoveNoncanonicalUnannotated \
+        --outSAMattributes <sam_attr> --outSAMtype BAM SortedByCoordinate --outBAMsortingThreadN <threads>
+   
+   ```
 
 5. P-site calling
 
