@@ -31,9 +31,41 @@ R/Bioconductor packages:
 * [GenomicFeatures](http://bioconductor.org/packages/release/bioc/html/GenomicFeatures.html)
 * [rtracklayer](http://bioconductor.org/packages/release/bioc/html/rtracklayer.html)
 
-### Tutorial to run the pipeline
+### Workflow
 
-#### Annotation
+1. Download and generate files that are used in the pipeline
+
+```bash
+RUN_THE_SCRIPT
+```
+
+2. Generate putative ORFs
+
+```bash
+RUN_THE_SCRIPT
+```
+
+3. Ribo-Seq data processing
+
+```bash
+RUN_THE_SCRIPT
+```
+
+4. RNA-Seq data processing
+
+```bash
+RUN_THE_SCRIPT
+```
+
+5. ORF calling
+
+```bash
+RUN_THE_SCRIPT
+```
+
+## Pipeline explained
+
+### Annotation
 
 We recommend to use [GENCODE](https://www.gencodegenes.org/) annotation (GTF/GFF3 files) and genome and transcript sequences (Fasta files) for Human and Mouse. For other species, we have used [Ensembl](https://www.ensembl.org/info/data/ftp/index.html) annotation for Zebrafish. tRNA sequences can be downloaded from UCSC Table Browser.
 
@@ -49,7 +81,7 @@ Comprehensive gene annotation | The main annotation file (GTF and GFF3 format) |
 LncRNA gene annotation | comprehensive gene annotation of lncRNA genes (GTF and GFF3 format) | CHR | GENCODE
 tRNA sequences | Nucleotide sequences of tRNA genes predicted by UCSC using tRNAscan-SE (Fasta format) | CHR | UCSC Table Browser
 
-#### Defining transcript sets
+### Defining transcript sets
 
 We combined GENCODE protein-coding transcripts and LncRNA transcripts to form reference transcriptome. Users can potentially assemble the transcriptome using RNA-seq data (e.g. [Cufflinks](http://cole-trapnell-lab.github.io/cufflinks/)), however, Studies have shown that computational approaches produce a large number of artefacts (false positives), which absorbed a substantial proportion of the reads from truly expressed transcripts and were assigned large expression estimates.
 
@@ -77,7 +109,7 @@ cd ~/ref/GENCODE/mouse/M13/fasta/transcriptome/
 ~/code/github/orf-discovery/script/fastagrep.sh -v 'IG_*|TR_*|miRNA|misc_RNA|Mt_*|rRNA|scaRNA|scRNA|snoRNA|snRNA|sRNA|ribozyme|nonsense_mediated_decay|non_stop_decay' <(gzip -dc gencode.vM13.transcripts.fa.gz) >transcripts_biotype_filtered.fa
 ```
 
-#### Defining ORFs
+### Defining ORFs
 
 Given transcriptome sequences, we exhaustively searched for putative ORFs beginning with a start codon (“ATG”, “TTG”, “CTG”, “GTG”) and ending with a stop codon ("TAG", "TAA", "TGA") without an intervening stop codon in between in each of the three reading frames.
 
@@ -124,27 +156,42 @@ Then, we only keep the smORFs:
 paste -d'\t' orfs_ATG.bed orfs_ATG.width | awk '$13 <= 303' | cut -f1-12 | sort -k4 >orfs_ATG.smORFs_100.bed
 ```
 
-#### Ribosome profiling (Ribo-Seq) data processing
+### Ribosome profiling (Ribo-Seq) data processing
 
-Ribo-Seq libraries are in general single-end and reads are 50bp long. We have the following steps to process the raw sequencing data (Fastq format)
-
-QC
+Ribo-Seq libraries are in general single-end and reads are 50bp long. We have the following steps to process the raw sequencing data (Fastq format):
+    
+1. Quality control. We use FastQC, for example: 
 
 ```bash
 fastqc -t $THREADS -o $OUTPATH/fastqc $RAWDATAPATH/${RAWDATAFILENAME}.fastq.gz
 ```
-adapter trimming
-contaimination removing
-align to reference genome
-p-site calling
 
-#### RNA-Seq data processing
+2. Adapter and quality trimming. We use Trim Galore ([user guide](https://github.com/FelixKrueger/TrimGalore/blob/master/Docs/Trim_Galore_User_Guide.md)), for example:
+
+```bash
+# User can give a customized adapter by flag -a, or trim_galore will automatically detect the adapter if it's standard
+# To filter for read length, user can use flags such as --length 25 --max_length 35 for min and max length
+
+trim_galore -q 33 --fastqc --trim-n -e 0.1 --stringency 3 $RAWDATAPATH/${RAWDATAFILENAME}.fastq.gz -o $OUTPATH/trim_galore
+```
+
+3. contaimination removing
+
+    In order to remove rRNA/tRNA content or other contaminants in the sample, we used Bowtie (version 1) to align the trimmed reads against specific contaminant sequences assembled from a collection of mouse rRNA, Mt_rRNA, Mt_tRNA, snRNA, snoRNA, misc_RNA, miRNA (from GENCODE) and tRNA (from UCSC) sequences, we also include the following sequences from NCBI:
+    
+    
+
+
+4. align to reference genome
+5. P-site calling
+
+### RNA-Seq data processing
 
 QC
 adapter/quality trimming
 align to reference genome
 
-#### ORF calling
+### ORF calling
 
 ## Support
 
