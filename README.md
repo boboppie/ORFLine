@@ -409,13 +409,19 @@ samtools index filtered.bam
 Filter out ORFs with 0 read covered. bedtools is used to count the reads, for example:
 
 ```bash
-parallel -j<threads> "bedtools coverage -counts -split -a orfs_{}.smORFs.bed -b <filtered.bam> >orfs_{}.smORFs.bedtools.counts" ::: ATG CTG TTG GTG
+parallel -j<threads> "bedtools coverage -counts -split -a <orfs_{}.smORFs.bed> -b <filtered.bam> > <orfs_{}.smORFs.bedtools.counts>" ::: ATG CTG TTG GTG
 
-parallel "awk '\$13 > 0' orfs_{}.smORFs.bedtools.counts >orfs_{}.smORFs.bedtools.greaterThanZeroReads.counts" ::: ATG CTG TTG GTG
-parallel "cut -f1-12 orfs_{}.smORFs.bedtools.greaterThanZeroReads.counts >orfs_{}.smORFs.bedtools.greaterThanZeroReads.bed" ::: ATG CTG TTG GTG
+parallel "awk '\$13 > 0' <orfs_{}.smORFs.bedtools.counts> > <orfs_{}.smORFs.bedtools.greaterThanZeroReads.counts>" ::: ATG CTG TTG GTG
+parallel "cut -f1-12 <orfs_{}.smORFs.bedtools.greaterThanZeroReads.counts> > <orfs_{}.smORFs.bedtools.greaterThanZeroReads.bed>" ::: ATG CTG TTG GTG
 ```
 
 #### 3. RPF count filter
+
+Not all reads are RPFs, plastid will extract all RPFs given p-site offset information, for example:
+
+```bash
+parallel "python script/get_count_vectors.py --annotation_files <orfs_{}.smORFs.bedtools.greaterThanZeroReads.bed> --annotation_format BED --count_files <filtered.bam> --min_length <min_len> --max_length <max_len> --fiveprime_variable --offset <psite_offset_file> --out_prefix {} ." ::: ATG CTG TTG GTG
+```
 
 #### 4. Transcript expression filter
 
