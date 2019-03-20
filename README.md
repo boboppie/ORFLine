@@ -65,9 +65,14 @@ RUN_THE_SCRIPT
 
 ### Output
 
-column | ex
+The final output file in info_table directory is in BED12 format with extension.
+
+column | name
 ------ | --
-A | ...
+1 - 12 | See [BED format definition](https://genome.ucsc.edu/FAQ/FAQformat.html#format1). Col 4 is the ORFId
+13 | smORF class, e.g. canonical, five_prime.
+14 | peptide AA length
+15 | regionId, it is possible muliple ORFIds (transcript-based) map to a unique regionId (genomic-based)
 
 
 ### Run on cluster
