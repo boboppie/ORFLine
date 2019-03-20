@@ -67,8 +67,8 @@ RUN_THE_SCRIPT
 
 The final output file in info_table directory is in BED12 format with extension.
 
-column | name
------- | --
+column | Description
+------ | -----------
 1 - 12 | See [BED format definition](https://genome.ucsc.edu/FAQ/FAQformat.html#format1). Col 4 is the ORFId
 13 | smORF class, e.g. canonical, five_prime.
 14 | peptide AA length
@@ -432,6 +432,20 @@ parallel "LC_ALL=C fgrep -f <stringytie_active_transcript_Ids.txt> <plastid_ORFs
 ```
 
 #### 5. Label filter
+
+According to their location on host transcript, smORFs will be classified as following:
+
+Class | Description
+-----   -----------
+canonical | overlapping annotated CDS, have the same stop with annotated CDS
+canonical_extended | 
+canonical_truncated |
+five_prime | in upstream of annotated CDS
+five_prime_overlap | in upstream of annotated CDS, overlapping annotated CDS
+three_prime | in downstream of annotated CDS
+three_prime_overlap | in downstream of annotated CDS, overlapping annotated CDS
+within | in internal of annotated CDS, but in a different frame relative annotated CDS
+noncoding | in non-coding genes or non-coding transcripts of coding genes
 
 #### 6. ORFScore filter
 
