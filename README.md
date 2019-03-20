@@ -406,7 +406,14 @@ samtools index filtered.bam
 
 #### 2. Read count filter
 
-There has to be at least 10 reads falling into an ORF. bedtools
+Filter out ORFs with 0 read covered. bedtools is used to count the reads, for example:
+
+```bash
+parallel -j<threads> "bedtools coverage -counts -split -a orfs_{}.smORFs.bed -b <filtered.bam> >orfs_{}.smORFs.bedtools.counts" ::: ATG CTG TTG GTG
+
+parallel "awk '\$13 > 0' orfs_{}.smORFs.bedtools.counts >orfs_{}.smORFs.bedtools.greaterThanZeroReads.counts" ::: ATG CTG TTG GTG
+parallel "cut -f1-12 orfs_{}.smORFs.bedtools.greaterThanZeroReads.counts >orfs_{}.smORFs.bedtools.greaterThanZeroReads.bed" ::: ATG CTG TTG GTG
+```
 
 #### 3. RPF count filter
 
