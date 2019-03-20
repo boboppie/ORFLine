@@ -436,7 +436,7 @@ parallel "LC_ALL=C fgrep -f <stringytie_active_transcript_Ids.txt> <plastid_ORFs
 According to their location on host transcript, smORFs will be classified as following:
 
 Class | Description
------   -----------
+----- | -----------
 canonical | overlapping annotated CDS, have the same stop with annotated CDS
 canonical_extended | overlapping annotated CDS, have the same stop with annotated CDS
 canonical_truncated | overlapping annotated CDS, have the same stop with annotated CDS
