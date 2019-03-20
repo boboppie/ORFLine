@@ -438,8 +438,8 @@ According to their location on host transcript, smORFs will be classified as fol
 Class | Description
 -----   -----------
 canonical | overlapping annotated CDS, have the same stop with annotated CDS
-canonical_extended | 
-canonical_truncated |
+canonical_extended | overlapping annotated CDS, have the same stop with annotated CDS
+canonical_truncated | overlapping annotated CDS, have the same stop with annotated CDS
 five_prime | in upstream of annotated CDS
 five_prime_overlap | in upstream of annotated CDS, overlapping annotated CDS
 three_prime | in downstream of annotated CDS
