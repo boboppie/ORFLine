@@ -73,6 +73,15 @@ column | name
 13 | smORF class, e.g. canonical, five_prime.
 14 | peptide AA length
 15 | regionId, it is possible muliple ORFIds (transcript-based) map to a unique regionId (genomic-based)
+16 | Ensembl transcript Id
+17 | gene symbol
+18 | gene description
+19 | 
+20 |
+21 |
+22 |
+23 |
+24 |
 
 
 ### Run on cluster
