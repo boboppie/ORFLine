@@ -449,13 +449,57 @@ noncoding | in non-coding genes or non-coding transcripts of coding genes
 
 #### 6. ORFScore filter
 
+ORFScore will be calculated and any smORFs with NA score and low coverage (< 0.1) will be discared, for example:
+
+```bash
+parallel "Rscript <ORFScore.R> <ORFs_{}_translated_expressed.txt> {}" ::: ATG CTG TTG GTG
+
+cat <ORFScore_*TG.tsv> | sort -k2 -g | awk '{if($2!="NA") print}' > <ORFScore_all_noNA.tsv>
+cat <ORFScore_all_noNA.tsv> | awk '{if($2 >0 && $6 >= 0.1) print}' > <ORFScore_all_filteredByCov.tsv>
+```
+
 #### 7. Region filter
+
+Overlap with exons, for example:
+
+```bash
+Rscript ~/code/github/orf-discovery/script/RegionFilter.R . <cds.gtf> <filtered.bam> <threads>
+```
 
 #### 8. Ribosome release score (RRS) filter
 
+Calculate RRS, filter out rna_ratio < 45 and RRS < 5 (cutoff based on [RRS paper](https://www.ncbi.nlm.nih.gov/pubmed/23810193))
+
+```bash
+Rscript script/RRS.R . <rna-seq_bam_dir>
+
+tail -n +2 <RRS_out.tsv> | awk '$2 > 9 && $3 < 30 && $4 > 5' > <RRS_out_filtered.tsv>
+```
+
 #### 9. Nested filter
 
+ORFs may have the same stop but different start, they are nested, among the nested ORFs, the one with ATG start codon has the highest priority, then the one with max ORFScore will be selected, for example:
+
+```bash
+Rscript script/NestedRegionFilter.R . <threads>
+```
+
 #### 10. FDR filter
+
+ORFscore p-vals will be adjusted (q-val), and we set 0.01 as cutoff. In the meantime, we'd like keep the smORFs longer than 10 codons. A stringent constraint is that we expect to see RPFs covering codon 1 and 2, so the mean of RPF is greater than 0. For example:
+
+```bash
+Rscript script/ORFScore_padj.R <ORFScore_merged_PT_filtered.tsv> <all_withQval>
+
+awk '($4+0) < 0.01' <ORFScore_all_withQval.tsv> > <ORFScore_fdr_filtered.tsv>
+
+# Length filter >= 11aa including stop codon
+cat <ORFScore_fdr_filtered.tsv> | cut -f1 | cut -f4,5 -d: | tr ":" "\t" | awk '{print ($2-$1+1)/3}' > <ORFScore_fdr_filtered_len.txt>
+paste <ORFScore_fdr_filtered.tsv> <ORFScore_fdr_filtered_len.txt> | awk '$17 >= 11' | cut -f1-16 > <ORFScore_length_filtered.tsv>
+
+# codon_1_2 mean should be greater than 0
+awk '$10 > 0' ORFScore_length_filtered.tsv >ORFScore_codon_filtered.tsv
+```
 
 ## Support
 
