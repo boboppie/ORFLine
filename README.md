@@ -425,6 +425,12 @@ parallel "python script/get_count_vectors.py --annotation_files <orfs_{}.smORFs.
 
 #### 4. Transcript expression filter
 
+We will only consider those smORFs whose host transcripts are expressed (by stringtie estimation). 
+
+```bash
+parallel "LC_ALL=C fgrep -f <stringytie_active_transcript_Ids.txt> <plastid_ORFs_{}_translated.txt> > <ORFs_{}_translated_expressed.txt>" ::: ATG CTG TTG GTG
+```
+
 #### 5. Label filter
 
 #### 6. ORFScore filter
