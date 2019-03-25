@@ -460,7 +460,7 @@ cat <ORFScore_all_noNA.tsv> | awk '{if($2 >0 && $6 >= 0.1) print}' > <ORFScore_a
 
 #### 7. Region filter
 
-Overlap with exons, for example:
+If a smORF region is overlapping with annotated coding seqeunces (CDSs), estimate the propotion of signal (RPF_CDS/RPF_smORF) it obsorbs from the CDS, if it is greater than 1, the smORF is inside the CDSs and will be filtered out, for example:
 
 ```bash
 Rscript ~/code/github/orf-discovery/script/RegionFilter.R . <cds.gtf> <filtered.bam> <threads>
