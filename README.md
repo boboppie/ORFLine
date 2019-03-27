@@ -24,7 +24,7 @@ tree.  Currently, the tree is hosted on github, and can be obtained via:
 * [StringTie](https://ccb.jhu.edu/software/stringtie/)
 * [EMBOSS](http://emboss.sourceforge.net/)
 * [GNU Parallel](https://www.gnu.org/software/parallel/) (recommended)
-* [R](https://www.r-project.org/)
+* [R](https://www.r-project.org/) 3.3.1
 
 R/Bioconductor packages:
 * [riboSeqR](http://bioconductor.org/packages/release/bioc/html/riboSeqR.html)
