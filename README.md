@@ -110,7 +110,7 @@ Comprehensive gene annotation | The main annotation file (GTF and GFF3 format) |
 LncRNA gene annotation | comprehensive gene annotation of lncRNA genes (GTF and GFF3 format) | CHR | GENCODE
 tRNA sequences | Nucleotide sequences of tRNA genes predicted by UCSC using tRNAscan-SE (Fasta format) | CHR | UCSC Table Browser
 
-Example to download mouse tRNA sequences from [UCSC table brower](https://genome.ucsc.edu/cgi-bin/hgTables):
+Example options to download mouse tRNA sequences from [UCSC table brower](https://genome.ucsc.edu/cgi-bin/hgTables):
 * clade:  Mammal     
 * genome: Mouse
 * assembly:   Dec 2011. (GRCm38/mm10)
