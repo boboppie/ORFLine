@@ -259,6 +259,8 @@ Ribo-Seq libraries are in general single-end and reads are 50bp long. We have th
        NR_137295.1 Homo sapiens mitochondrially encoded 16S ribosomal RNA (RNR2), ribosomal RNA
        https://www.ncbi.nlm.nih.gov/nuccore/NR_137295.1?report=fasta
     
+   There is a copy fo UCSC tRNA and NCBI rRNA sequences to in *sequences* directory.
+   
    Next Bowtie index will be built for the sequences, for example:
    
    ```bash
