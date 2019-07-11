@@ -7,7 +7,7 @@ This repository holds the pipeline for prediction of actively translated small o
 To download the source code, please use git to download the most recent development
 tree.  Currently, the tree is hosted on github, and can be obtained via:
 
-    git clone git://github.com/boboppie/orf-discovery.git code/github/orf-discovery
+    git clone git://github.com/boboppie/orf-discovery.git
     
 ## Usage
 
