@@ -37,7 +37,7 @@ echo "Checking the SRA FTP server is up running..."
 echo "--------------------------------------------------------------------------"
 echo
 
-FTPSTATUS=$(wget "ftp://ftp-trace.ncbi.nlm.nih.gov/sra/" --timeout 30 -O - 2>/dev/null | grep "sra-instant" || echo "The site is down")
+FTPSTATUS=$(curl -s ftp://ftp-trace.ncbi.nlm.nih.gov/sra/ | grep sra-instant || echo "The site is down")
 
 if [[ $FTPSTATUS == *"down"* ]]; then
     echo
