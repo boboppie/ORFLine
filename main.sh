@@ -38,7 +38,7 @@ done
 set -- "${POSITIONAL[@]}" # restore positional parameters
 
 # Step 1 - check dependencies
-bash ./module_check.sh
+bash ./module-check.sh
 
 # Step 2 - download sample data
 

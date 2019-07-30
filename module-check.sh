@@ -13,6 +13,7 @@ echo "FastQC"
 echo "Trim Galore"
 echo "plastid"
 echo "StringTie"
+echo "sra tools"
 echo "EMBOSS"
 echo "GNU Parallel"
 echo "R"
@@ -34,7 +35,7 @@ echo
 
  
 # Declare a string array with type
-declare -a CmdArray=("samtools" "tabix" "bedtools" "bedops" "bowtie" "fastqc" "trim_galore" "psite" "STAR" "stringtie" "transeq" "parallel" "R")
+declare -a CmdArray=("samtools" "tabix" "bedtools" "bedops" "bowtie" "fastqc" "fastq-dump" "trim_galore" "psite" "STAR" "stringtie" "transeq" "parallel" "R")
  
 # Read the array values with space
 for cmd in "${CmdArray[@]}"; do
