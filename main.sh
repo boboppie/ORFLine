@@ -46,7 +46,7 @@ bash ./data-download.sh
 
 # Step 3 - download reference and processing
 
-bash ./ref-download
+bash ./ref-download.sh
 
 # Step 4 - predict putative ORFs
 
