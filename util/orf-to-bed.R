@@ -6,33 +6,37 @@
 # Transcriptome in Fasta format
 # Transcriptome annotation in GTF format
 
-# Make sure annotation is consistent with sequences (same version), or extract sequences from genome?
+# Make sure annotation is consistent with sequences (same version), otherwise extract sequences from genome
 
+# Default values:
 org <- "Mus musculus"
 startCodon <- "ATG"
-refTranscriptomeFile <- "../../out/ref/pipeline_global/transcriptome.fa"
-gtfFile <- "../../out/ref/pipeline_global/annotation.gtf"
+refTranscriptomeFile <- "./out/ref/pipeline_global/transcriptome.fa"
+gtfFile <- "./out/ref/pipeline_global/annotation.gtf"
+outPath <- "./out/prediction"
 NCORE <- 1
 
 args <- commandArgs(trailingOnly = TRUE)
 
-if (length(args) == 5) {
+if (length(args) == 6) {
   org=args[1]
   startCodon=args[2]
   refTranscriptomeFile=args[3]
   gtfFile=args[4]
-  NCORE=args[5]
+  outPath=args[5]
+  NCORE=args[6]
   message("Input: ", args)
-} else if (length(args) == 4) {
+} else if (length(args) == 5) {
   org=args[1]
   startCodon=args[2]
   refTranscriptomeFile=args[3]
   gtfFile=args[4]
+  outPath=args[5]
   message("Input: ", args)
 } else if (length(args) == 0) {
   message("Use default settings")
 } else {
-  stop("Wrong input? Have you given the correct values for orgamism (scientifi name), start codon, transcript sequences, gene annotation and ncore (optional)?")
+  stop("Wrong input? Have you given the correct values for orgamism (scientific name, default: Mus musculus), start codon (default: ATG), transcript sequences, gene annotation, output path (default: .) and ncore (default: 1)?")
 }
 
 message("orgamism: ", org)
@@ -94,4 +98,4 @@ tx.map.hit.bed <- asBED(split(unlisted.hit, names(unlisted.hit)))
   
 message("Exporting to BED...")
 orfToBED <- export(tx.map.hit.bed, format = "bed")
-write(orfToBED, paste("orfs_",startCodon,".bed", sep=""))
+write(orfToBED, paste(outPath, "/", "orfs_", startCodon, ".bed", sep=""))
