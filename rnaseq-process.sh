@@ -117,9 +117,9 @@ echo "Running Trim Galore with FastQC..."
 
 if [ "$PAIRED" == "true" ]
 then
-    trim_galore -j $THREAD -q 33 --fastqc --trim-n -e 0.1 --stringency 3 --paired  $FASTQ -o $OUTPATH/trim_galore
+    trim_galore -q 33 --fastqc --trim-n -e 0.1 --stringency 3 --paired  $FASTQ -o $OUTPATH/trim_galore
 else 
-    trim_galore -j $THREAD -q 33 --fastqc --trim-n -e 0.1 --stringency 3 $FASTQ -o $OUTPATH/trim_galore
+    trim_galore -q 33 --fastqc --trim-n -e 0.1 --stringency 3 $FASTQ -o $OUTPATH/trim_galore
 fi
 
 echo "Finished Trim Galore..."

@@ -118,9 +118,9 @@ echo "Running Trim Galore with FastQC..."
 
 if [ "$ADAPTER" == "" ]
 then
-   trim_galore -j $THREAD -q 33 --fastqc --trim-n -e 0.1 --stringency 3 $FASTQ -o $OUTPATH/trim_galore # max and min read length: --length 25 --max_length 35
+   trim_galore -q 33 --fastqc --trim-n -e 0.1 --stringency 3 $FASTQ -o $OUTPATH/trim_galore # max and min read length: --length 25 --max_length 35
 else 
-   trim_galore -j $THREAD -q 33 -a $ADAPTER --fastqc --trim-n -e 0.1 --stringency 3 $FASTQ -o $OUTPATH/trim_galore
+   trim_galore -q 33 -a $ADAPTER --fastqc --trim-n -e 0.1 --stringency 3 $FASTQ -o $OUTPATH/trim_galore
 fi
 
 echo "Finished Trim Galore..."
