@@ -37,31 +37,34 @@ esac
 done
 set -- "${POSITIONAL[@]}" # restore positional parameters
 
+LOGDIR=./out/log
+mkdir -p $LOGDIR
+
 # Step 1 - check dependencies
-bash ./module-check.sh
+bash ./module-check.sh >$LOGDIR/module-check.log 2>&1
 
 # Step 2 - download sample data
 
-bash ./data-download.sh
+bash ./data-download.sh >$LOGDIR/data-download.log 2>&1
 
 # Step 3 - download reference and processing
 
-bash ./ref-download.sh
+bash ./ref-download.sh >$LOGDIR/ref-download.log 2>&1
 
 # Step 4 - predict putative ORFs
 
-bash ./orf-prediction.sh
+bash ./orf-prediction.sh >$LOGDIR/orf-prediction.log 2>&1
 
 # Step 5 - process ribo-seq data
 
-bash ./riboseq-process.sh
+bash ./riboseq-process.sh >$LOGDIR/riboseq-process.log 2>&1
 
 # Step 6 - process rna-seq data
 
-bash ./rnaseq-process.sh
+bash ./rnaseq-process.sh >$LOGDIR/rnaseq-process.log 2>&1
 
 # Step 7 -  orf calling
 
-bash ./orf-calling.sh
+bash ./orf-calling.sh >$LOGDIR/orf-calling.log 2>&1
 
 echo "Finished. Please find results in ./out/calling/info_table."
