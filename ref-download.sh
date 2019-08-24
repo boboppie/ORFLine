@@ -230,13 +230,13 @@ paste $GENCODEDIR/annotation/CHR/comprehensive/All_transcript_ids_noVersion.txt 
 
 # Extract gene description from MGI
 # Name the result to All_transcript_ids_geneName_description.tsv
-grep -v '^#' $GENCODEDIR/annotation/CHR/comprehensive/annotation.gtf | cut -f9 | grep transcript_id | sed "s/\"//g; s/;//g" | cut -f2,4,8 -d " " | sed "s/ /\t/g" | cut -f1,3,5 | sort | uniq >$GENCODEDIR/annotation/CHR/comprehensive/geneId_ver-txId_ver-symbol.tsv
-paste <(cut -f1 $GENCODEDIR/annotation/CHR/comprehensive/geneId_ver-txId_ver-symbol.tsv | sed 's/\./\t/g') <(cut -f2-3 $GENCODEDIR/annotation/CHR/comprehensive/geneId_ver-txId_ver-symbol.tsv) >$GENCODEDIR/annotation/CHR/comprehensive/geneId-txId_ver-symbol.tsv
-cut -f2,3,6 $GENCODEDIR/annotation/CHR/comprehensive/MGI-ENSEMBL.rpt | awk -v OFS='\t' -F '\t' '{print $3,$1,$2}' | sort | uniq >$GENCODEDIR/annotation/CHR/comprehensive/MGI-ENSEMBL-geneId-symbol-description.tsv
-join -a1 -a2 -t $'\t' $GENCODEDIR/annotation/CHR/comprehensive/geneId-txId_ver-symbol.tsv $GENCODEDIR/annotation/CHR/comprehensive/MGI-ENSEMBL-geneId-symbol-description.tsv | cut -f2,3,5 | sort | uniq >$GENCODEDIR/annotation/CHR/comprehensive/txId_ver-symbol-description.tsv
+grep -v '^#' $GENCODEDIR/annotation/CHR/comprehensive/annotation.gtf | cut -f9 | grep transcript_id | sed "s/\"//g; s/;//g" | cut -f2,4,8 -d " " | sed "s/ /\t/g" | sort | uniq >$GENCODEDIR/annotation/CHR/comprehensive/geneId_ver-txId_ver-symbol.tsv
+paste <(cut -f1 $GENCODEDIR/annotation/CHR/comprehensive/geneId_ver-txId_ver-symbol.tsv | sed 's/\./\t/g') <(cut -f2-3 $GENCODEDIR/annotation/CHR/comprehensive/geneId_ver-txId_ver-symbol.tsv) | cut -f1,3,4 >$GENCODEDIR/annotation/CHR/comprehensive/geneId-txId_ver-symbol.tsv
+cut -f2,3,6 $GENCODEDIR/annotation/CHR/comprehensive/MGI-ENSEMBL.rpt | awk -v OFS='\t' -F '\t' '{print $3,$1,$2}' | sort | uniq >$GENCODEDIR/annotation/CHR/comprehensive/MGI-ENSEMBL_geneId-symbol-description.tsv
+join -a1 -a2 -t $'\t' $GENCODEDIR/annotation/CHR/comprehensive/geneId-txId_ver-symbol.tsv $GENCODEDIR/annotation/CHR/comprehensive/MGI-ENSEMBL_geneId-symbol-description.tsv | cut -f2,3,5 | sort | uniq >$GENCODEDIR/annotation/CHR/comprehensive/txId_ver-symbol-description.tsv
 
-sort $CODEBASE/ref/annotation/All_transcript_ids_geneName_description.tsv >$GENCODEDIR/annotation/CHR/comprehensive/All_transcript_ids_geneName_description_sorted.tsv
-join -t $'\t' -a1 -a2 $GENCODEDIR/annotation/CHR/comprehensive/All_transcript_ids.tsv $GENCODEDIR/annotation/CHR/comprehensive/All_transcript_ids_geneName_description_sorted.tsv | cut -f2-4 >$GENCODEDIR/annotation/CHR/comprehensive/All_transcript_idsWithVersion_geneName_description.tsv
+#sort $REFDIR/annotation/All_transcript_ids_geneName_description.tsv >$GENCODEDIR/annotation/CHR/comprehensive/All_transcript_ids_geneName_description_sorted.tsv
+#join -t $'\t' -a1 -a2 $GENCODEDIR/annotation/CHR/comprehensive/All_transcript_ids.tsv $GENCODEDIR/annotation/CHR/comprehensive/All_transcript_ids_geneName_description_sorted.tsv | cut -f2-4 >$GENCODEDIR/annotation/CHR/comprehensive/All_transcript_idsWithVersion_geneName_description.tsv
 
 # Contaimination sequences
 
