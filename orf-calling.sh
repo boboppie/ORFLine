@@ -432,8 +432,8 @@ echo "Start creating output files..."
 
 mkdir -p $OUTPATH/final_output
 
-LL_ALL=C fgrep -f $OUTPATH/fdr_filter/ORFId_fdr_filter.txt $OUTPATH/label_filter/regions.tsv | sort -k2 >$OUTPATH/final_output/region_ORFId.tsv
-LL_ALL=C fgrep -f $OUTPATH/fdr_filter/ORFId_fdr_filter.txt $OUTPATH/label_filter/regions.tsv | cut -f1 | sort | uniq >$OUTPATH/final_output/region_nonDup.txt
+LC_ALL=C fgrep -f $OUTPATH/fdr_filter/ORFId_fdr_filter.txt $OUTPATH/label_filter/regions.tsv | sort -k2 >$OUTPATH/final_output/region_ORFId.tsv
+LC_ALL=C fgrep -f $OUTPATH/fdr_filter/ORFId_fdr_filter.txt $OUTPATH/label_filter/regions.tsv | cut -f1 | sort | uniq >$OUTPATH/final_output/region_nonDup.txt
 
 LC_ALL=C fgrep -f $OUTPATH/fdr_filter/ORFId_fdr_filter.txt $OUTPATH/label_filter/ORFScore_ALL_filtered_expressed_label_BED12Plus.bed | sort -k4 >$OUTPATH/final_output/smORFs_ALL_BED12Plus.bed
 cut -f4 $OUTPATH/final_output/smORFs_ALL_BED12Plus.bed | cut -f2 -d: | sort | uniq >$OUTPATH/final_output/smORFs_gene_symbol.txt
