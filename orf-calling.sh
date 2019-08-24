@@ -458,7 +458,7 @@ rm $OUTPATH/final_output/*.t
 rm $OUTPATH/final_output/smORFs_*_reHeader.fa
 
 cat $OUTPATH/final_output/*.pep >$OUTPATH/final_output/all.pep
-cat $OUTPATH/final_output/all.pep | awk '$0 ~ ">" {print c; c=0;printf substr($0,2) "\t"; } $0 !~ ">" {c+=length($0);} END { print c; }' | sed '/^$/d' | awk '{print $1"\t"$2-1}' | sort | uniq >$OUTPATH/final_output/pep_len.tsv 
+cat $OUTPATH/final_output/all.pep | awk '$0 ~ ">" {print c; c=0;printf substr($0,2) "\t"; } $0 !~ ">" {c+=length($0);} END { print c; }' | sed '/^$/d' | awk '{print $1"\t"$2-1}' | sort | uniq | sed 's/(.)//g' >$OUTPATH/final_output/pep_len.tsv 
 
 echo "Finished creating output files."
 echo
