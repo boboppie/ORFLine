@@ -443,11 +443,11 @@ paste $OUTPATH/final_output/smORFs_ALL_BED12Plus.bed $OUTPATH/final_output/regio
 awk -v OFS="\t" '{print $1,$2,$3,$14,$5,$6,$7,$8,$9,$10,$11,$12,$13}' $OUTPATH/final_output/smORFs_ALL_BED12Plus_withRegionId.bed | sort | uniq >$OUTPATH/final_output/smORFs_ALL_BED12Plus_regionIdAsCol4.bed
 
 LC_ALL=C fgrep -f $OUTPATH/fdr_filter/ORFId_fdr_filter.txt $OUTPATH/fdr_filter/ORFScore_merged.tsv | cut -f14 | sort | uniq | grep -v '^$' >$OUTPATH/final_output/label.txt
-parallel -j $THREAD 'grep -P "{}$" $OUTPATH/final_output/smORFs_ALL_BED12Plus_regionIdAsCol4.bed >$OUTPATH/final_output/smORFs_{}_BED12Plus.bed' :::: $OUTPATH/final_output/label.txt 
+parallel -j $THREAD "grep -P \"{}$\" $OUTPATH/final_output/smORFs_ALL_BED12Plus_regionIdAsCol4.bed > $OUTPATH/final_output/smORFs_{}_BED12Plus.bed" :::: $OUTPATH/final_output/label.txt
+
 parallel -j $THREAD "cut -f1-12 $OUTPATH/final_output/smORFs_{}_BED12Plus.bed >$OUTPATH/final_output/smORFs_{}_BED12.bed" :::: $OUTPATH/final_output/label.txt
 
 parallel -j $THREAD "bedtools getfasta -fi $REFGENOME -bed $OUTPATH/final_output/smORFs_{}_BED12.bed -split -name -s -fo $OUTPATH/final_output/smORFs_{}.fa" :::: $OUTPATH/final_output/label.txt
-#parallel 'fold -w 60 {} >{.}_fold.fa' ::: `ls *.fa`
 
 parallel -j $THREAD "awk '/^>/{print \$1\" \"\$1; next}{print}' <{} >{.}_reHeader.fa" ::: `ls $OUTPATH/final_output/*.fa`
 
