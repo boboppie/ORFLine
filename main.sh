@@ -40,31 +40,34 @@ set -- "${POSITIONAL[@]}" # restore positional parameters
 LOGDIR=./out/log
 mkdir -p $LOGDIR
 
+echo 'You can also find output messages in ./out/log'
+echo
+
 # Step 1 - check dependencies
-bash ./module-check.sh
+bash ./module-check.sh 2>&1 | tee $LOGDIR/module-check.log
 
 # Step 2 - download sample data
 
-bash ./data-download.sh >$LOGDIR/data-download.log 2>&1
+bash ./data-download.sh 2>&1 | tee $LOGDIR/data-download.log
 
 # Step 3 - download reference and processing
 
-bash ./ref-download.sh >$LOGDIR/ref-download.log 2>&1
+bash ./ref-download.sh 2>&1 | tee $LOGDIR/ref-download.log
 
 # Step 4 - predict putative ORFs
 
-bash ./orf-prediction.sh >$LOGDIR/orf-prediction.log 2>&1
+bash ./orf-prediction.sh 2>&1 | tee $LOGDIR/orf-prediction.log
 
 # Step 5 - process ribo-seq data
 
-bash ./riboseq-process.sh >$LOGDIR/riboseq-process.log 2>&1
+bash ./riboseq-process.sh 2>&1 | tee $LOGDIR/riboseq-process.log
 
 # Step 6 - process rna-seq data
 
-bash ./rnaseq-process.sh >$LOGDIR/rnaseq-process.log 2>&1
+bash ./rnaseq-process.sh 2>&1 | tee $LOGDIR/rnaseq-process.log
 
 # Step 7 -  orf calling
 
-bash ./orf-calling.sh >$LOGDIR/orf-calling.log 2>&1
+bash ./orf-calling.sh 2>&1 | tee $LOGDIR/orf-calling.log
 
 echo "Finished. Please find results in ./out/calling/info_table."
