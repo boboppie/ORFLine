@@ -41,7 +41,7 @@ LOGDIR=./out/log
 mkdir -p $LOGDIR
 
 # Step 1 - check dependencies
-bash ./module-check.sh >$LOGDIR/module-check.log 2>&1
+bash ./module-check.sh
 
 # Step 2 - download sample data
 
