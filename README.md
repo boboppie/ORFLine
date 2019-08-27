@@ -102,13 +102,17 @@ column | Description
 
 ### Run the pipeline
 
-We recommand to install all dependencies via conda (assume you install it in home directory), for example:
+We recommand to install all dependencies via [miniconda](https://docs.conda.io/en/latest/miniconda.html), for example:
 
 ```bash
 curl -fsSL https://repo.anaconda.com/miniconda/Miniconda2-latest-Linux-x86_64.sh -o miniconda2.sh
+
+# assume miniconda is installed in the home directory
 bash miniconda2.sh -b -p ~/miniconda2
+
 export PATH=~/miniconda2/bin:$PATH
 export PYTHONPATH=~/miniconda2/lib/python2.7/site-packages
+
 conda install -y -c conda-forge wget 
 conda install -y -c conda-forge parallel
 conda install -y -c bioconda samtools
