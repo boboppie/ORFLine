@@ -43,36 +43,40 @@ Download raw sequencing data from SRA:
 
 ### Workflow
 
-1. Check 
-
-1. Download and generate files that are used in the pipeline
+1. Check if all the dependencies are isntalled
 
 ```bash
-RUN_THE_SCRIPT
+bash ./module-check.sh
 ```
 
-2. Generate putative ORFs
+2. Download and generate files that are used in the pipeline
 
 ```bash
-RUN_THE_SCRIPT
+bash ./ref-download.sh -o mouse -r M22 -t 4
 ```
 
-3. Ribosome profiling (Ribo-Seq) data processing
+3. Generate putative ORFs
 
 ```bash
-RUN_THE_SCRIPT
+bash ./orf-prediction.sh -o \"Mus musculus\" -t 8
 ```
 
-4. RNA-Seq data processing
+4. Ribosome profiling (Ribo-Seq) data processing
 
 ```bash
-RUN_THE_SCRIPT
+bash ./riboseq-process.sh -f ./out/data/ribo-seq/ribo.fastq.gz -a AAAAAAAAAAA -t 4
 ```
 
-5. ORF calling
+5. RNA-Seq data processing
 
 ```bash
-RUN_THE_SCRIPT
+bash ./rnaseq-process.sh -f ./out/data/rna-seq/rna.fastq.gz -t 4
+```
+
+6. ORF calling
+
+```bash
+bash ./orf-calling.sh -o mouse -x 10090 -m 32 -n 28 -t 8
 ```
 
 ### Output
