@@ -87,17 +87,17 @@ column | Description
 ------ | -----------
 1 - 12 | See [BED format definition](https://genome.ucsc.edu/FAQ/FAQformat.html#format1). Col 4 is the ORFId
 13 | smORF class, e.g. canonical, five_prime.
-14 | peptide AA length
-15 | regionId, it is possible muliple ORFIds (transcript-based) map to a unique regionId (genomic-based)
+14 | Peptide length (AA)
+15 | RegionId, it is possible muliple ORFIds (transcript-based) map to a unique regionId (genomic-based)
 16 | Ensembl transcript Id
-17 | gene symbol
-18 | gene description
-19 | 
-20 |
-21 |
-22 |
-23 |
-24 |
+17 | Gene symbol
+18 | Gene description
+19 | ORF score
+20 | Ribosome release score
+21 | Ribo FPFM
+22 | RNA FPKM
+23 | Translation efficiency (TE)
+24 | Main ORF TE (NA if host transcript is noncoding)
 
 
 ### Run the pipeline
