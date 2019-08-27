@@ -1,4 +1,4 @@
-# Discovery of bioactive micropeptides in the immune system
+# Prediction of bioactive micropeptides in the immune system
 
 This repository holds the pipeline for prediction of actively translated small open reading frames (smORFs) in the immune system.
 
@@ -42,6 +42,8 @@ Download raw sequencing data from SRA:
     Ribo-Seq - ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR160/004/SRR1605304/SRR1605304.fastq.gz
 
 ### Workflow
+
+1. Check 
 
 1. Download and generate files that are used in the pipeline
 
@@ -94,13 +96,53 @@ column | Description
 24 |
 
 
-### Run on cluster
+### Run the pipeline
 
-TBC
+We recommand to install all dependencies via conda (assume you install it in home directory), for example:
+
+```bash
+curl -fsSL https://repo.anaconda.com/miniconda/Miniconda2-latest-Linux-x86_64.sh -o miniconda2.sh
+bash miniconda2.sh -b -p ~/miniconda2
+export PATH=~/miniconda2/bin:$PATH
+export PYTHONPATH=~/miniconda2/lib/python2.7/site-packages
+conda install -y -c conda-forge wget 
+conda install -y -c conda-forge parallel
+conda install -y -c bioconda samtools
+conda install -y -c bioconda htslib 
+conda install -y -c bioconda bedtools 
+conda install -y -c bioconda bedops 
+conda install -y -c bioconda bowtie 
+conda install -y -c bioconda fastqc
+conda install -y -c bioconda cutadapt 
+conda install -y -c bioconda trim-galore 
+conda install -y -c bioconda star 
+conda install -y -c bioconda stringtie 
+conda install -y -c bioconda sra-tools
+conda install -y -c bioconda emboss 
+conda install -y -c bioconda plastid
+conda install -y -c bioconda bioconductor-rhtslib
+Rscript -e 'install.packages("BiocManager", repos="http://cran.us.r-project.org"); BiocManager::install(c("riboSeqR", "GenomicFeatures", "rtracklayer"))'
+```
+
+We have a main.sh script to run all the steps mentioned above, you can simply pull the source code and run it as:
+
+```bash
+git clone https://github.com/boboppie/orf-discovery.git
+cd orf-discovery
+chmod +x *.sh
+  
+bash ./main.sh
+```
 
 ### Singularity Container
 
-TBC
+We have created a [Singularity](https://singularity-hub.org) image, the repository is [here](https://github.com/boboppie/orf-discovery-singularity), users can pull and run a test as:
+
+```bash
+singularity pull shub://boboppie/orf-discovery-singularity # the default name of the image is orf-discovery-singularity_latest.sif
+
+singularity run orf-discovery-singularity_latest.sif
+```
 
 ## Pipeline explained
 
