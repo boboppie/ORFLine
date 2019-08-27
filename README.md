@@ -102,9 +102,12 @@ column | Description
 
 ### Run the pipeline
 
-We recommand to install all dependencies via [miniconda](https://docs.conda.io/en/latest/miniconda.html), for example:
+We recommand to run a test on a virtual machine, e.g. [VirtualBox](https://www.virtualbox.org/wiki/Downloads) with a minimal ISO (e.g. [CentOS 7 minimal](http://isoredirect.centos.org/centos/7/isos/x86_64/CentOS-7-x86_64-Minimal-1810.iso)). Users can install all dependencies via [miniconda](https://docs.conda.io/en/latest/miniconda.html), for example:
 
 ```bash
+# Tools to install on CentOS before miniconda
+yum -y install gcc tar bzip2 git which
+
 curl -fsSL https://repo.anaconda.com/miniconda/Miniconda2-latest-Linux-x86_64.sh -o miniconda2.sh
 
 # assume miniconda is installed in the home directory
