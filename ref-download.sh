@@ -146,8 +146,8 @@ wget -nv --tries=10 -O $GENCODEDIR/fasta/transcriptome/CHR/protein-coding-transc
 
 echo "Downloading long non-coding RNA transcript sequences..."
 
-mkdir -p $GENCODEDIR/fasta/transcriptome/CHR/lncRNA-transcripts
-wget -nv --tries=10 -O $GENCODEDIR/fasta/transcriptome/CHR/lncRNA-transcripts/lncRNA_transcripts.fa.gz ftp://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_$ORGANISM/release_$RELEASE/gencode.v$RELEASE.lncRNA_transcripts.fa.gz
+#mkdir -p $GENCODEDIR/fasta/transcriptome/CHR/lncRNA-transcripts
+#wget -nv --tries=10 -O $GENCODEDIR/fasta/transcriptome/CHR/lncRNA-transcripts/lncRNA_transcripts.fa.gz ftp://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_$ORGANISM/release_$RELEASE/gencode.v$RELEASE.lncRNA_transcripts.fa.gz
 
 ### Annitation GTF/GFF3
 
