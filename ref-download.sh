@@ -180,7 +180,8 @@ echo "Extracting chromosomes from primary assambly..."
 echo 
 
 mkdir -p $GENCODEDIR/fasta/genome/CHR/
-$CODEBASE/util/fastagrep.sh 'chr' <(gzip -dc $GENCODEDIR/fasta/genome/PRI/genome.fa.gz) >$GENCODEDIR/fasta/genome/CHR/genome.fa
+$CODEBASE/util/fastagrep.sh 'chr' <(gzip -dc $GENCODEDIR/fasta/genome/PRI/genome.fa.gz) | gzip >$GENCODEDIR/fasta/genome/CHR/genome.fa.gz
+rm -rf $GENCODEDIR/fasta/genome/PRI
 
 # Filter for transcriptome
 
@@ -293,13 +294,13 @@ echo
 SJ_GTF=$REFDIR/pipeline_global/annotation.gtf
 
 mkdir -p $GENCODEDIR/star/50bp
-STAR --runThreadN $THREAD --runMode genomeGenerate --genomeDir $GENCODEDIR/star/50bp --genomeFastaFiles $GENCODEDIR/fasta/genome/CHR/genome.fa --sjdbGTFfile $SJ_GTF --sjdbOverhang 49 
+STAR --runThreadN $THREAD --runMode genomeGenerate --genomeDir $GENCODEDIR/star/50bp --genomeFastaFiles <(zcat $GENCODEDIR/fasta/genome/CHR/genome.fa.gz) --sjdbGTFfile $SJ_GTF --sjdbOverhang 49 
 
 #mkdir -p $REFDIR/$ORGANISM/star/75bp
-#STAR --runThreadN 4 --runMode genomeGenerate --genomeDir $REFDIR/$ORGANISM/star/75bp --genomeFastaFiles $GENCODEDIR/fasta/genome/CHR/genome.fa --sjdbGTFfile $SJ_GTF --sjdbOverhang 74 
+#STAR --runThreadN 4 --runMode genomeGenerate --genomeDir $REFDIR/$ORGANISM/star/75bp --genomeFastaFiles <(zcat $GENCODEDIR/fasta/genome/CHR/genome.fa.gz) --sjdbGTFfile $SJ_GTF --sjdbOverhang 74 
 
 mkdir -p $GENCODEDIR/star/100bp
-STAR --runThreadN $THREAD --runMode genomeGenerate --genomeDir $GENCODEDIR/star/100bp --genomeFastaFiles $GENCODEDIR/fasta/genome/CHR/genome.fa --sjdbGTFfile $SJ_GTF --sjdbOverhang 99
+STAR --runThreadN $THREAD --runMode genomeGenerate --genomeDir $GENCODEDIR/star/100bp --genomeFastaFiles <(zcat $GENCODEDIR/fasta/genome/CHR/genome.fa.gz) --sjdbGTFfile $SJ_GTF --sjdbOverhang 99
 
 ln -s ../../../$GENCODEDIR/star $REFDIR/pipeline_global/star
 
