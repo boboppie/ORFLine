@@ -66,7 +66,7 @@ mkdir -p $DATADIR/ribo-seq
 #wget -nv --tries=10 -O $DATADIR/ribo-seq/test.sra ftp://ftp-trace.ncbi.nlm.nih.gov/sra/sra-instant/reads/ByRun/sra/SRR/SRR160/SRR1605304/SRR1605304.sra 
 #fastq-dump --gzip -O $DATADIR/ribo-seq/ $DATADIR/ribo-seq/test.sra
 
-cp ./test/data/test_ribo_merged_chr19.fq.gz $DATADIR/ribo-seq/test.fastq.gz
+cp ./test/data/test_ribo_chr19.fq.gz $DATADIR/ribo-seq/test.fastq.gz
 
 echo "Dataset downloaded."
 
