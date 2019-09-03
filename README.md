@@ -36,7 +36,7 @@ R/Bioconductor packages:
 
 We will use [*Diaz-Muñoz et al, 2015*](https://www.nature.com/articles/ni.3115) LPS activated B cell dataset as an example to demonstrate typical workflow. 
 
-Download raw sequencing data from SRA:
+Download raw sequencing data from EBI:
 
     RNA-Seq - ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR160/001/SRR1605271/SRR1605271.fastq.gz
     Ribo-Seq - ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR160/004/SRR1605304/SRR1605304.fastq.gz
