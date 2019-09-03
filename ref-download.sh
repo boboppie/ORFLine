@@ -275,7 +275,7 @@ ln -s ../../../$GENCODEDIR/annotation/CHR/comprehensive/CDS_PC_sorted.gtf.gz.tbi
 ln -s ../../../$GENCODEDIR/fasta/transcriptome/CHR/all-transcripts/transcripts_biotype_filtered_pc_posInfo_smORFs_canonical.txt $REFDIR/pipeline_global/transcripts_biotype_filtered_pc_posInfo_smORFs_canonical.txt
 ln -s ../../../$GENCODEDIR/fasta/transcriptome/CHR/all-transcripts/transcripts_biotype_filtered_pc_posInfo_formatted_simplified.tsv $REFDIR/pipeline_global/transcripts_biotype_filtered_pc_posInfo_formatted_simplified.tsv
 ln -s ../../../$GENCODEDIR/fasta/transcriptome/CHR/all-transcripts/transcripts_biotype_filtered_header.txt $REFDIR/pipeline_global/transcripts_biotype_filtered_header.txt
-ln -s ../../../$GENCODEDIR/annotation/CHR/comprehensive/All_transcript_idsWithVersion_geneName_description.tsv $REFDIR/pipeline_global/All_transcript_idsWithVersion_geneName_description.tsv
+#ln -s ../../../$GENCODEDIR/annotation/CHR/comprehensive/All_transcript_idsWithVersion_geneName_description.tsv $REFDIR/pipeline_global/All_transcript_idsWithVersion_geneName_description.tsv
 ln -s ../../../$GENCODEDIR/annotation/CHR/comprehensive/txId_ver-symbol-description.tsv $REFDIR/pipeline_global/txId_ver-symbol-description.tsv
 
 # Building index
