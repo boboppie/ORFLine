@@ -514,11 +514,11 @@ Class | Description
 canonical | an ORF which exactly coincides with an annotated CDS.
 canonical_extended or extended | an ORF starts upstream of an annotated CDS and has the same stop codon as the CDS
 canonical_truncated or truncated | an ORF starts downstream of an annotated CDS, have the same stop codon as CDS
-five_prime or uORF | an ORF which is completely in the annotated 5’UTR of a transcript and does not overlap the annotated CDS
-five_prime_overlap or ouORF | an ORF in the annotated 5’UTR of a transcript but which overlaps an annotated CDS
-three_prime or dORF | an ORF in the annotated 3’UTR of a transcript and does not overlap the annotated CDS
-three_prime_overlap or odORF | an ORF in the annotated 3’UTR of a transcript but which overlaps an annotated CDS
-within | an ORF in the interior of an annotated CDS, but in a different frame relative the annotated CDS
+five_prime or uORF | an ORF which is completely in the annotated 5’UTR of a protein-coding transcript and does not overlap the annotated CDS
+five_prime_overlap or ouORF | an ORF in the annotated 5’UTR of a protein-coding transcript but which overlaps the annotated CDS
+three_prime or dORF | an ORF in the annotated 3’UTR of a protein-coding transcript and does not overlap the annotated CDS
+three_prime_overlap or odORF | an ORF in the annotated 3’UTR of a protein-coding transcript but which overlaps the annotated CDS
+within | an ORF in the interior of an annotated CDS, but in a different frame relative the CDS
 noncoding or ncORF| an ORF from a transcript annotated as noncoding, such as a lncRNA or pseudogene
 
 #### 6. ORFScore filter
