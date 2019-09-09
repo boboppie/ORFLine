@@ -440,7 +440,7 @@ Ribo-Seq libraries are in general single-end and reads are 50bp long. We have th
        34      6519    0.005254        0.557908        0.312931        0.129161
        35      1609    0.001297        0.517091        0.324425        0.158484
        
-   We can see that read length 29-31 have strong baised for phase0 or reading frame 1 (triplet periodicity, a feature of Ribo-Seq data)    
+   We can see that read length 29-31 have strong biased for phase0 or reading frame 1 (triplet periodicity, a feature of Ribo-Seq data)    
 
 ### RNA-Seq data processing
 
