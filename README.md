@@ -511,15 +511,15 @@ According to their location on host transcript, smORFs will be classified as fol
 
 Class | Description
 ----- | -----------
-canonical | overlapping annotated CDS, have the same stop with annotated CDS
-canonical_extended | overlapping annotated CDS, have the same stop with annotated CDS
-canonical_truncated | overlapping annotated CDS, have the same stop with annotated CDS
-five_prime | in upstream of annotated CDS
-five_prime_overlap | in upstream of annotated CDS, overlapping annotated CDS
-three_prime | in downstream of annotated CDS
-three_prime_overlap | in downstream of annotated CDS, overlapping annotated CDS
-within | in internal of annotated CDS, but in a different frame relative annotated CDS
-noncoding | in non-coding genes or non-coding transcripts of coding genes
+canonical | an ORF which exactly coincides with an annotated CDS.
+canonical_extended or extended | an ORF starts upstream of an annotated CDS and has the same stop codon as the CDS
+canonical_truncated or truncated | an ORF starts downstream of an annotated CDS, have the same stop codon as CDS
+five_prime or uORF | an ORF which is completely in the annotated 5’UTR of a transcript and does not overlap the annotated CDS
+five_prime_overlap or ouORF | an ORF in the annotated 5’UTR of a transcript but which overlaps an annotated CDS
+three_prime or dORF | an ORF in the annotated 3’UTR of a transcript and does not overlap the annotated CDS
+three_prime_overlap or odORF | an ORF in the annotated 3’UTR of a transcript but which overlaps an annotated CDS
+within | an ORF in the interior of an annotated CDS, but in a different frame relative the annotated CDS
+noncoding or ncORF| an ORF from a transcript annotated as noncoding, such as a lncRNA or pseudogene
 
 #### 6. ORFScore filter
 
