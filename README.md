@@ -440,7 +440,7 @@ Ribo-Seq libraries are in general single-end and reads are 50bp long. We have th
        34      6519    0.005254        0.557908        0.312931        0.129161
        35      1609    0.001297        0.517091        0.324425        0.158484
        
-   We can see that read length 29-31 have strong baised for phase0 or reading frame 1 (triplet periodicity, a feature of Ribo-Seq data)    
+   We can see that read length 29-31 have strong biased for phase0 or reading frame 1 (triplet periodicity, a feature of Ribo-Seq data)    
 
 ### RNA-Seq data processing
 
@@ -511,15 +511,15 @@ According to their location on host transcript, smORFs will be classified as fol
 
 Class | Description
 ----- | -----------
-canonical | overlapping annotated CDS, have the same stop with annotated CDS
-canonical_extended | overlapping annotated CDS, have the same stop with annotated CDS
-canonical_truncated | overlapping annotated CDS, have the same stop with annotated CDS
-five_prime | in upstream of annotated CDS
-five_prime_overlap | in upstream of annotated CDS, overlapping annotated CDS
-three_prime | in downstream of annotated CDS
-three_prime_overlap | in downstream of annotated CDS, overlapping annotated CDS
-within | in internal of annotated CDS, but in a different frame relative annotated CDS
-noncoding | in non-coding genes or non-coding transcripts of coding genes
+canonical | an ORF which exactly coincides with an annotated CDS
+canonical_extended or extended | an ORF starts upstream of an annotated CDS and has the same stop codon as the CDS
+canonical_truncated or truncated | an ORF starts downstream of an annotated CDS, have the same stop codon as CDS
+five_prime or uORF | an ORF which is completely in the annotated 5’UTR of a protein-coding transcript and does not overlap the annotated CDS
+five_prime_overlap or ouORF | an ORF in the annotated 5’UTR of a protein-coding transcript but which overlaps the annotated CDS
+three_prime or dORF | an ORF in the annotated 3’UTR of a protein-coding transcript and does not overlap the annotated CDS
+three_prime_overlap or odORF | an ORF in the annotated 3’UTR of a protein-coding transcript but which overlaps the annotated CDS
+within or internal | an ORF in the interior of an annotated CDS, but in a different frame relative the CDS
+noncoding or ncORF| an ORF from a transcript annotated as noncoding, such as a lncRNA or pseudogene
 
 #### 6. ORFScore filter
 
