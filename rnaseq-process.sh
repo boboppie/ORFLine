@@ -58,6 +58,11 @@ case $key in
     FASTQ="$2"
     shift # past argument
     shift # past value
+    while [[ $# -gt 0 ]] && ([[ $1 == *"fastq"* ]] || [[ $1 == *"fq"* ]])
+    do
+    FASTQ="$FASTQ $1"
+    shift # past next fq file
+    done
     ;;
     -p|--paired)
     PAIRED="$2"
@@ -101,7 +106,9 @@ echo "Paired-end - $PAIRED"
 echo "Thread - $THREAD"
 echo
 
-t=${FASTQ%.fastq.gz}
+t=${FASTQ%%.fastq.gz*}
+t=${t%%.fq.gz*}
+t=${t%_R[1-9]}
 NAME=${t##*/}
 
 REFDIR=./out/ref

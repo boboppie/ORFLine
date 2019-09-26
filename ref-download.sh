@@ -30,7 +30,6 @@ echo "--------------------------------------------------------------------------
 echo "Checking the availability of tools needed..."
 echo "--------------------------------------------------------------------------"
 echo
-
  
 # Declare a string array with type
 declare -a CmdArray=("wget" "gunzip" "bgzip" "samtools" "tabix" "bowtie-build" "STAR")
@@ -130,7 +129,7 @@ rm -rf $GENCODEDIR/*
 echo "Downloading reference genome sequence, primary assembly..."
 
 mkdir -p $GENCODEDIR/fasta/genome/PRI
-wget -nv --tries=10 -O $GENCODEDIR/fasta/genome/PRI/genome.fa.gz ftp://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_mouse/release_$RELEASE/GRCm38.primary_assembly.genome.fa.gz # genome assembly version may change
+wget -nv --tries=10 -O $GENCODEDIR/fasta/genome/PRI/genome.fa.gz ftp://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_$ORGANISM/release_$RELEASE/*.primary_assembly.genome.fa.gz # genome assembly version may change
 
 # Transcripts CHR
 

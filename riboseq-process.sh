@@ -98,7 +98,9 @@ echo "Adapter - $ADAPTER"
 echo "Thread - $THREAD"
 echo
 
-t=${FASTQ%.fastq.gz}
+t=${FASTQ%%.fastq.gz*}
+t=${t%%.fq.gz*}
+t=${t%_R[1-9]}
 NAME=${t##*/}
 
 REFDIR=./out/ref
