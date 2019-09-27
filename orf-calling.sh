@@ -512,7 +512,12 @@ paste <(cut -f2-15 $OUTPATH/info_table/smORF_withRegion_pepLen.tsv) <(cut -f1 $O
 
 paste <(cut -f4 $OUTPATH/info_table/smORF_BED12_class_peplen_regionId.bed) $OUTPATH/info_table/smORF_BED12_class_peplen_regionId.bed >$OUTPATH/info_table/smORF_BED12_class_peplen_regionId.tsv
 join -t $'\t' -a1 -a2 $OUTPATH/info_table/smORF_BED12_class_peplen_regionId.tsv $OUTPATH/info_table/ORFId_txId_geneName_description.tsv >$OUTPATH/info_table/smORF_BED12_class_peplen_regionId_txId_geneName_description.tsv
-join -t $'\t' -a1 -a2 $OUTPATH/info_table/smORF_BED12_class_peplen_regionId_txId_geneName_description.tsv $OUTPATH/info_table/ORFId_ORFScore_RRS_RPrpkm_RNArpkm_TEsmORF_TEmainORF.tsv | cut -f2-25 >$OUTPATH/info_table/info_table_BED12Plus.bed
+join -t $'\t' -a1 -a2 $OUTPATH/info_table/smORF_BED12_class_peplen_regionId_txId_geneName_description.tsv $OUTPATH/info_table/ORFId_ORFScore_RRS_RPrpkm_RNArpkm_TEsmORF_TEmainORF.tsv | cut -f2-25 >$OUTPATH/info_table/info_table_BED12Plus_withoutAASeq.bed
+
+perl -pe 's/>(.*)/>\1\t/g; s/\n//g; s/>/\n>/g' $OUTPATH/final_output/all.pep | grep -v '^$' | cut -c 2- | sort | uniq >$OUTPATH/info_table/RegionID_AASeq.tsv
+paste <(cut -f15 $OUTPATH/info_table/info_table_BED12Plus_withoutAASeq.bed) $OUTPATH/info_table/info_table_BED12Plus_withoutAASeq.bed | sort >$OUTPATH/info_table/RegionId_info_table_BED12Plus_withoutAASeq.tsv
+join -t $'\t' -a1 -a2 $OUTPATH/info_table/RegionId_info_table_BED12Plus_withoutAASeq.tsv $OUTPATH/info_table/RegionID_AASeq.tsv | cut -f2-26 | sort -n >$OUTPATH/info_table/info_table_BED12Plus.bed
+
 
 echo "Finished creating information table."
 echo
