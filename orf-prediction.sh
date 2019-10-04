@@ -10,8 +10,10 @@ echo
 echo "Arguments:"
 echo "-o|--organism : scientific name, e.g. \"Mus musculus\", default: \"Mus musculus\""
 echo "-t|--thread : number of computer cores, default: 4"
+echo "-c|--codon : a string of start codons, default: \"ATG CTG GTG TTG\""
+echo "-u|--upper : upper limit of smORF length (codons), default: 100"
 echo
-echo "Example command: orf-prediction.sh -o \"Mus musculus\" -t 8"
+echo "Example command: orf-prediction.sh -o \"Mus musculus\" -t 8 -c \"ATG CTG GTG TTG\" -u 100"
 echo "--------------------------------------------------------------------------------------------"
 echo
 
@@ -31,6 +33,16 @@ case $key in
     shift # past argument
     shift # past value
     ;;
+    -c|--codon)
+    CODONLIST="$2"
+    shift # past argument
+    shift # past value
+    ;;
+    -u|--upper)  
+    UPPER="$2"
+    shift # past argument
+    shift # past value
+    ;;  
     *)    # unknown option
     POSITIONAL+=("$1") # save it in an array for later
     shift # past argument
@@ -49,10 +61,22 @@ then
     THREAD=4
 fi
 
+if [ "$CODONLIST" == "" ]
+then
+    CODONLIST="ATG CTG GTG TTG"
+fi
+
+if [ "$UPPER" == "" ]
+then
+    UPPER=100
+fi
+
 
 echo "Input:"
 echo "Orgamism - $ORGANISM"
 echo "Thread - $THREAD"
+echo "Start codons - $CODONLIST"
+echo "smORF length upper limit - $UPPER"
 echo
 
 REFDIR=./out/ref
@@ -65,42 +89,16 @@ PREDICTIONDIR=./out/prediction
 
 mkdir -p $PREDICTIONDIR
 
-echo "Generating putative ORFs with ATG start codon..."
+parallel -j1 "echo \"Generating putative ORFs with {} start codon...\"; Rscript $CODEBASE/util/orf-to-bed.R \"$ORGANISM\" {} $TRANSCRIPTOME $GTF $PREDICTIONDIR $THREAD; echo \"Finished {} start codon prediction.\"; echo" ::: $CODONLIST
 
-Rscript $CODEBASE/util/orf-to-bed.R "$ORGANISM" ATG $TRANSCRIPTOME $GTF $PREDICTIONDIR $THREAD
+echo "Selecting smORFs (<= $UPPER codons)..."
 
-echo "Finished ATG start codon prediction."
-echo
+parallel "cut -f11 $PREDICTIONDIR/orfs_{}.bed | sed -e 's/,/\t/g' | awk '{for(i=t=0;i<NF;) t+=\$++i; \$0=t}1' >$PREDICTIONDIR/orfs_{}.width" ::: $CODONLIST
 
-echo "Generating putative ORFs with CTG start codon..."
+# 100 codons don't include stop codon, so base length should be 100*3+3=303
+UPPERINNT=$((UPPER*3+3))
 
-Rscript $CODEBASE/util/orf-to-bed.R "$ORGANISM" CTG $TRANSCRIPTOME $GTF $PREDICTIONDIR $THREAD
-
-echo "Finished CTG start codon prediction."
-echo
-
-echo "Generating putative ORFs with GTG start codon..."
-
-Rscript $CODEBASE/util/orf-to-bed.R "$ORGANISM" GTG $TRANSCRIPTOME $GTF $PREDICTIONDIR $THREAD
-
-echo "Finished GTG start codon prediction."
-echo
-
-echo "Generating putative ORFs with TTG start codon..."
-
-Rscript $CODEBASE/util/orf-to-bed.R "$ORGANISM" TTG $TRANSCRIPTOME $GTF $PREDICTIONDIR $THREAD
-
-echo "Finished TTG start codon prediction."
-echo
-
-echo "Selecting smORFs (<= 100 codon)..."
-
-parallel "cut -f11 $PREDICTIONDIR/orfs_{}.bed | sed -e 's/,/\t/g' | awk '{for(i=t=0;i<NF;) t+=\$++i; \$0=t}1' >$PREDICTIONDIR/orfs_{}.width" ::: ATG CTG TTG GTG
-
-# 100 codons don't include stop codon, so base length should be 100*3+3=303; what if we extend 100 to 120 codons?
-parallel "paste -d'\t' $PREDICTIONDIR/orfs_{}.bed $PREDICTIONDIR/orfs_{}.width | awk '\$13 <= 303' | cut -f1-12 | sort -k4 >$PREDICTIONDIR/orfs_{}.smORFs.bed" ::: ATG CTG TTG GTG
-
-#nice -5 parallel "paste -d'\t' orfs_{}.bed orfs_{}.width | awk '\$13 <= 363' | cut -f1-12 | sort -k4 >orfs_{}.smORFs_120.bed" ::: ATG CTG TTG GTG
+parallel "paste -d'\t' $PREDICTIONDIR/orfs_{}.bed $PREDICTIONDIR/orfs_{}.width | awk '\$13 <= $UPPERINNT' | cut -f1-12 | sort -k4 >$PREDICTIONDIR/orfs_{}.smORFs.bed" ::: $CODONLIST
 
 echo "Finished ORF prediction."
 echo
