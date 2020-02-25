@@ -9,6 +9,11 @@ do
 key="$1"
 
 case $key in
+    -d|--outdir)
+    OUTDIR="$2"
+    shift # past argument
+    shift # past value
+    ;;
     -o|--organism)
     ORGANISM="$2"
     shift # past argument
@@ -37,11 +42,32 @@ esac
 done
 set -- "${POSITIONAL[@]}" # restore positional parameters
 
-LOGDIR=./out/log
-mkdir -p $LOGDIR
+#OUTDIRPATH=`readlink -e $OUTDIR`
+#LOGDIR=$OUTDIRPATH/log
 
-echo 'You can also find output messages in ./out/log'
+LOGDIR=$OUTDIR/log
+
+echo $OUTDIR
+echo $OUTDIRPATH
+echo $LOGDIR
+
+#mkdir -p $OUTDIRPATH
+mkdir -p $OUTDIR
+
+# Exit if received a permission denied message
+if finderrors=$(! find "$LOGDIR" -depth -type d 2>&1 1>/dev/null)
+    then
+        echo
+        echo "No permission to create the specified directory: $OUTDIRPATH"
+        echo "Please choose a different location for your project."
+        exit $?
+fi
+
+mkdir -p $LOGDIR
+echo "Output messages can be found in $LOGDIR"
 echo
+
+exit 0
 
 # Step 1 - check dependencies
 bash ./module-check.sh 2>&1 | tee $LOGDIR/module-check.log
@@ -52,7 +78,7 @@ bash ./data-download.sh 2>&1 | tee $LOGDIR/data-download.log
 
 # Step 3 - download reference and processing
 
-bash ./ref-download.sh 2>&1 | tee $LOGDIR/ref-download.log
+bash ./ref-download.sh -o $ORGANISM -r $RELEASE -t $THREAD $2>&1 | tee $LOGDIR/ref-download.log
 
 # Step 4 - predict putative ORFs
 
