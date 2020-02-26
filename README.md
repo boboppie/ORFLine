@@ -234,7 +234,7 @@ Code to generate putative ORFs:
 # Output:
 # The output file is in BED12 format (https://genome.ucsc.edu/FAQ/FAQformat#format1) and named orf_$START_CODON.bed 
 
-Rscript ~/code/github/ORFLine/script/ORFPredict.R <start_codon> <transcriptome.fa> <annotation.gtf> <organism_scientific_name> <threads> 
+Rscript util/ORFPredict.R <start_codon> <transcriptome.fa> <annotation.gtf> <organism_scientific_name> <threads> 
 ```
 
 In the output file, a unique ID is given for each ORF, for example:
@@ -494,7 +494,7 @@ parallel "cut -f1-12 <orfs_{}.smORFs.bedtools.greaterThanZeroReads.counts> > <or
 Not all reads are RPFs, plastid will extract all RPFs given p-site offset information, for example:
 
 ```bash
-parallel "python script/get_count_vectors.py --annotation_files <orfs_{}.smORFs.bedtools.greaterThanZeroReads.bed> --annotation_format BED --count_files <filtered.bam> --min_length <min_len> --max_length <max_len> --fiveprime_variable --offset <psite_offset_file> --out_prefix {} ." ::: ATG CTG TTG GTG
+parallel "python util/get_count_vectors.py --annotation_files <orfs_{}.smORFs.bedtools.greaterThanZeroReads.bed> --annotation_format BED --count_files <filtered.bam> --min_length <min_len> --max_length <max_len> --fiveprime_variable --offset <psite_offset_file> --out_prefix {} ." ::: ATG CTG TTG GTG
 ```
 
 #### 4. Transcript expression filter
@@ -526,7 +526,7 @@ noncoding or ncORF| an ORF from a transcript annotated as noncoding, such as a l
 ORFScore will be calculated and any smORFs with NA score and low coverage (< 0.1) will be discared, for example:
 
 ```bash
-parallel "Rscript <ORFScore.R> <ORFs_{}_translated_expressed.txt> {}" ::: ATG CTG TTG GTG
+parallel "Rscript util/ORFScore.R <ORFs_{}_translated_expressed.txt> {}" ::: ATG CTG TTG GTG
 
 cat <ORFScore_*TG.tsv> | sort -k2 -g | awk '{if($2!="NA") print}' > <ORFScore_all_noNA.tsv>
 cat <ORFScore_all_noNA.tsv> | awk '{if($2 >0 && $6 >= 0.1) print}' > <ORFScore_all_filteredByCov.tsv>
@@ -537,7 +537,7 @@ cat <ORFScore_all_noNA.tsv> | awk '{if($2 >0 && $6 >= 0.1) print}' > <ORFScore_a
 If a smORF region is overlapping with annotated coding seqeunces (CDSs), estimate the propotion of signal (RPF_CDS/RPF_smORF) it obsorbs from the CDS, if it is greater than 1, the smORF is inside the CDSs and will be filtered out, for example:
 
 ```bash
-Rscript ~/code/github/ORFLine/script/RegionFilter.R . <cds.gtf> <filtered.bam> <threads>
+Rscript util/RegionFilter.R . <cds.gtf> <filtered.bam> <threads>
 ```
 
 #### 8. Ribosome release score (RRS) filter
@@ -545,7 +545,7 @@ Rscript ~/code/github/ORFLine/script/RegionFilter.R . <cds.gtf> <filtered.bam> <
 Calculate RRS, filter out rna_ratio < 45 and RRS < 5 (cutoff based on [RRS paper](https://www.ncbi.nlm.nih.gov/pubmed/23810193))
 
 ```bash
-Rscript script/RRS.R . <rna-seq_bam_dir>
+Rscript util/RRS.R . <rna-seq_bam_dir>
 
 tail -n +2 <RRS_out.tsv> | awk '$2 > 9 && $3 < 30 && $4 > 5' > <RRS_out_filtered.tsv>
 ```
@@ -555,7 +555,7 @@ tail -n +2 <RRS_out.tsv> | awk '$2 > 9 && $3 < 30 && $4 > 5' > <RRS_out_filtered
 ORFs may have the same stop but different start, they are nested, among the nested ORFs, the one with ATG start codon has the highest priority, then the one with max ORFScore will be selected, for example:
 
 ```bash
-Rscript script/NestedRegionFilter.R . <threads>
+Rscript util/NestedRegionFilter.R . <threads>
 ```
 
 #### 10. FDR filter
@@ -563,7 +563,7 @@ Rscript script/NestedRegionFilter.R . <threads>
 ORFscore p-vals will be adjusted (q-val), and we set 0.01 as cutoff. In the meantime, we'd like keep the smORFs longer than 10 codons. A stringent constraint is that we expect to see RPFs covering codon 1 and 2, so the mean of RPF is greater than 0. For example:
 
 ```bash
-Rscript script/ORFScore_padj.R <ORFScore_merged_PT_filtered.tsv> <all_withQval>
+Rscript util/ORFScore_padj.R <ORFScore_merged_PT_filtered.tsv> <all_withQval>
 
 awk '($4+0) < 0.01' <ORFScore_all_withQval.tsv> > <ORFScore_fdr_filtered.tsv>
 
