@@ -234,7 +234,7 @@ Code to generate putative ORFs:
 # Output:
 # The output file is in BED12 format (https://genome.ucsc.edu/FAQ/FAQformat#format1) and named orf_$START_CODON.bed 
 
-Rscript util/ORFPredict.R <start_codon> <transcriptome.fa> <annotation.gtf> <organism_scientific_name> <threads> 
+Rscript util/orf-to-bed.R <organism_scientific_name> <start_codon> <transcriptome.fa> <annotation.gtf> <threads> 
 ```
 
 In the output file, a unique ID is given for each ORF, for example:
