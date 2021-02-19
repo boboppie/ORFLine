@@ -580,4 +580,4 @@ awk '$10 > 0' ORFScore_length_filtered.tsv >ORFScore_codon_filtered.tsv
 ### email
 
 Please report any issues or questions by creating a ticket, or by email to 
-<fengyuan.hu@babraham.ac.uk>.
+<fengyuan.huu@gmail.com>.
