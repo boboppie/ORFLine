@@ -97,7 +97,8 @@ column | Description
 21 | Ribo FPFM
 22 | RNA FPKM
 23 | Translation efficiency (TE)
-24 | Main ORF TE (NA if host transcript is noncoding)
+24 | CDS TE (NA if host transcript is noncoding)
+25 | AA sequence
 
 
 ### Run the pipeline
