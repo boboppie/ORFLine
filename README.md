@@ -2,7 +2,7 @@
 
 This repository holds the pipeline for prediction of actively translated small open reading frames (smORFs) in the immune system.
 
-The software was created at [Martin Turner's lab at the Babraham Institute](https://www.babraham.ac.uk/our-research/immunology/martin-turner) and is described in [Hu, et al., "ORFLine: a bioinformatic pipeline to prioritise small open reading frames identifies candidate secreted small proteins from lymphocytes", BioRxiv (2021): 2021.01.21.426789.](https://www.biorxiv.org/content/10.1101/2021.01.21.426789v2)
+The software was created at [Martin Turner's lab at the Babraham Institute](https://www.babraham.ac.uk/our-research/immunology/martin-turner) and is described in [Hu, et al., "ORFLine: a bioinformatic pipeline to prioritise small open reading frames identifies candidate secreted small proteins from lymphocytes", <em>BioRxiv</em> (2021): 2021.01.21.426789.](https://www.biorxiv.org/content/10.1101/2021.01.21.426789v2)
 
 ## Obtaining
 
